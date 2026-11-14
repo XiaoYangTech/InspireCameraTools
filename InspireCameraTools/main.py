@@ -23,7 +23,7 @@ import traceback
 
 APP_NAME = "InspireCameraTools"
 APP_TITLE = "亿方展台管家"
-APP_VERSION = "1.0.1"
+APP_VERSION = "1.1.0"
 
 
 # ---------------------------------------------------------------------------
@@ -212,6 +212,20 @@ def run_self_check() -> int:
         check("希沃展台设备", True, f"{len(seewo)} 个" if seewo else "未连接（正常，无硬件也不影响其它功能）")
     except Exception as exc:  # noqa: BLE001
         check("HID 模块", False, f"{exc.__class__.__name__}: {exc}")
+
+    # 亿方智云客户端（免登录；自检只验证模块与配置，不联网）
+    try:
+        from core import cloud
+
+        status = cloud.cloud_status()
+        check("亿方智云客户端", bool(status.get("base_url")), f"slug={status.get('slug')}")
+        check(
+            "匿名设备标识",
+            bool(cloud.DEVICE_KEY_RE.match(str(status.get("device_key") or ""))),
+            str(status.get("device_key") or "")[:8] + "…",
+        )
+    except Exception as exc:  # noqa: BLE001
+        check("亿方智云客户端", False, f"{exc.__class__.__name__}: {exc}")
 
     # 一键相机拍照触发助手（UIA）
     try:

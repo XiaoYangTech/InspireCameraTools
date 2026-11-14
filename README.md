@@ -53,7 +53,7 @@ dist\InspireCameraTools\InspireCameraTools.exe
 | **历史版本下载** | 从「希沃软件历史版本搜集」API 拉取 EasiCamera 全部 Windows 历史版本（97 条/50 Windows），表格展示、搜索、断点下载、打开目录 |
 | **破坏自动更新** | 检测更新器文件/专属计划任务/服务/更新缓存/防火墙/hosts；执行=重命名本产品更新器+清理专属缓存+禁用专属任务/服务（不触碰共享 EasiUpdate 服务与主程序）；可还原；需管理员时明确提示 |
 | **一键相机** | 开机自启（HKCU Run，仅用户点击时写入）+ 后台监听展台 HID：按下机身**开关灯按键**后，用 **UI 自动化直接触发 EasiCamera 的「拍照」按钮**（等效机身拍照键/`ECCommands.CaptureImage`，无需键盘快捷键、不写 HID、不与希沃进程抢设备；800ms 防抖；页面可「检测拍照按钮」诊断） |
-| **设置与关于** | 安装目录探测/手选、数据与日志目录、主题/缩放信息、版本、免责声明 |
+| **设置与关于** | 安装目录探测/手选、数据与日志目录、主题/缩放信息、版本、**亿方智云**（手动检查更新、匿名统计开关、设备标识）、免责声明 |
 
 ## 3. 一键补丁：支持的版本与功能矩阵
 
@@ -119,6 +119,16 @@ EasiCamera 没有拍照快捷键。程序改为在按下展台机身开关灯键
 Raw 视图取按钮内 `TextBlock`（“拍照”）再找可 Invoke 的按钮祖先，已在本机真实 EasiCamera 进程
 （解包版 2.0.10.4087）上实测 `capture` 返回 `uia-invoke` 成功。全程不写 HID、不抢设备，
 也不依赖窗口焦点；HID 仅用于只读监听灯键。详见 [analysis/capture-trigger/README.md](analysis/capture-trigger/README.md)。
+
+## 4.1 亿方智云（InspireWorksCloud）接入
+
+应用接入「亿方智云」免费运营模式的 3 个接口（`slug=ict`，Base URL `https://api.yfyw.top/apps/ict/api.php`）：
+
+- **匿名上报** `client_ping`：仅随机设备标识 + 系统描述 + 计算机名，启动后一次、之后每 8 分钟一次；可在设置页关闭。
+- **启动弹窗公告** `popup`：支持文本/链接公告与「今日不再显示」（客户端本地记录）。
+- **传统手动更新** `app_info`：启动时比对最新版本并提示打开下载网页（不做自动下载/安装）；设置页可手动「检查更新」，可跳过指定版本。
+
+所有云请求超时/异常均静默降级，不影响本地功能；不使用 `app_update`（自动更新安装包）。详见 [analysis/cloud-integration.md](analysis/cloud-integration.md)。
 
 ## 5. 历史版本下载数据源
 

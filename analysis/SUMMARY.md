@@ -123,3 +123,19 @@ dist\InspireCameraTools\InspireCameraTools.exe
    - 验证：真实 UI 粘贴 `...\EasiCamera_2.1.0.4419\Main` → 自动识别 V2.1.0.4419、3 项默认勾选、
      「应用所选补丁」按钮变为可用（截图 `analysis/app-shots/paste-after.png`）；
    - 新增 `tests/test_patch_paths.py`（9 个路径规整用例），全套 68 个单测通过；重新打包并验证 smoke/self-check。
+
+
+## 九、亿方智云接入（2026-11-14）
+
+按 `D:\开发\InspireWorksCloud\docspi-reference.md` 接入 `slug=ict`，范围仅：匿名上报 `client_ping`、
+启动弹窗公告 `popup`、传统手动更新 `app_info`（不接 `app_update` 自动更新）。
+
+- `core/cloud.py`：请求封装（4s/8s 超时、异常静默）、设备标识（`le_`+32hex 持久化）、上报循环（启动后一次 + 每 8 分钟）、
+  弹窗本地去重（每日一次）、版本比较（忽略 v 前缀按段比较）、更新提示文案。
+- `app/app_window.py`：启动 1.2s 后后台拉公告/版本 → 自定义模态对话框（公告「今日不再显示」、更新「前往下载/跳过此版本」）；
+  上报线程随窗口关闭停止；`smoke-test` 下不联网。
+- `app/settings_page.py`：新增「亿方智云（更新与公告）」卡片（当前/最新版本、匿名统计开关、设备标识、检查更新按钮）。
+- 实测（2026-11-14）：`app_info` 返回应用 id=5/name=亿方展台管家/slug=ict（暂无版本记录）；`popup`、`announcements` 空；
+  `client_ping` 返回 `online:true`。
+- 测试：新增 `tests/test_cloud.py` 13 个离线用例；全套 81 个单测通过；应用自检/打包 smoke 通过。
+- 版本升至 **1.1.0**。
