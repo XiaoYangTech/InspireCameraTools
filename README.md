@@ -7,6 +7,14 @@
 
 ---
 
+## 下载
+
+- **GitHub Releases**：<https://github.com/XiaoYangTech/InspireCameraTools/releases>
+- **CNB Releases**：<https://cnb.cool/InspireWorks/InspireCameraTools/-/releases>
+- **源码仓库**：[GitHub](https://github.com/XiaoYangTech/InspireCameraTools) · [CNB](https://cnb.cool/InspireWorks/InspireCameraTools)
+
+当前版本 **v1.1.0**：`InspireCameraTools-1.1.0-win64.zip`（Windows 免安装单目录版，SHA-256 见同 Release 的 `SHA256SUMS.txt`）。
+
 ## 1. 目录结构
 
 ```
