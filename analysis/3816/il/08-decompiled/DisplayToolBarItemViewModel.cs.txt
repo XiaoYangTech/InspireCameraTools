@@ -1,0 +1,128 @@
+EasiCamera.Api.dll：工具栏集合 RefreshUiItemState 通过 IsShowUiItem 过滤，FunctionModule=None 的条目不会被加入 ImageUiItems。
+
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows;
+using Cvte.Linq;
+using Cvte.Paint.Framework;
+
+namespace EasiCamera;
+
+public class DisplayToolBarItemViewModel
+{
+	public ReadOnlyCollection<UiItem> AllUiItems { get; set; }
+
+	public IEnumerable<UiItem> CurrentFunctionUiItems { get; private set; }
+
+	public ObservableCollection<UiItem> LeftUiItems { get; }
+
+	public ObservableCollection<UiItem> LeftEnUiItems { get; }
+
+	public ObservableCollection<UiItem> DefaultToolUiItems { get; }
+
+	public ObservableCollection<UiItem> ImageUiItems { get; }
+
+	public ObservableCollection<UiItem> ExtentionUiItems { get; } = new ObservableCollection<UiItem>();
+
+	public ObservableCollection<UiItem> CenterEnUiItems { get; }
+
+	public ObservableCollection<UiItem> SidebarUiItems { get; }
+
+	public DisplayToolBarItemViewModel()
+	{
+		EC.AppConfig.AppTypeChanged += delegate
+		{
+			RefreshUiItemState();
+		};
+		EC.BoardApi.Board.CurrentSlideChanged += Board_CurrentSlideChanged;
+		EC.BoardApi.FunctionModuleChanged += BoardApi_FunctionModuleChanged;
+		EC.BoardApi.SidebarStatusChanged += delegate
+		{
+			RefreshUiItemState();
+		};
+		EC.BoardApi.ModeChanged += BoardApi_ModeChanged;
+		LeftUiItems = new ObservableCollection<UiItem>();
+		DefaultToolUiItems = new ObservableCollection<UiItem>();
+		ImageUiItems = new ObservableCollection<UiItem>();
+		CurrentFunctionUiItems = new List<UiItem>();
+		SidebarUiItems = new ObservableCollection<UiItem>();
+	}
+
+	private void BoardApi_FunctionModuleChanged(object sender, FunctionModuleChangedEventArgs e)
+	{
+		RefreshUiItemState();
+		if (DefaultToolUiItems.Any((UiItem x) => x is DisplayModeToolBarItem))
+		{
+			DefaultToolUiItems.OfType<DisplayModeToolBarItem>().ForEach(delegate(DisplayModeToolBarItem x)
+			{
+				x.IsChecked = false;
+			});
+			DisplayModeToolBarItem displayModeToolBarItem = DefaultToolUiItems.OfType<DisplayModeToolBarItem>().FirstOrDefault();
+			if (displayModeToolBarItem != null)
+			{
+				displayModeToolBarItem.IsChecked = true;
+			}
+		}
+	}
+
+	private void Board_CurrentSlideChanged(object sender, RoutedPropertyChangedEventArgs<Slide> e)
+	{
+		if (e.OldValue.Equals(EC.BoardApi.Board.GetCameraSlide()) || e.NewValue.Equals(EC.BoardApi.Board.GetCameraSlide()))
+		{
+			RefreshUiItemState();
+		}
+	}
+
+	private void BoardApi_ModeChanged(object sender, ModeChangeEventArgs e)
+	{
+		foreach (DisplayModeToolBarItem item in DefaultToolUiItems.OfType<DisplayModeToolBarItem>())
+		{
+			if (item.Mode.GetType() == EC.BoardApi.CurrentMode.GetType())
+			{
+				item.IsChecked = true;
+				break;
+			}
+		}
+	}
+
+	public void RefreshUiItemState()
+	{
+		CurrentFunctionUiItems = AllUiItems.GetUiItems(EC.BoardApi.CurrentFunctionModule);
+		LeftUiItems.Clear();
+		(from x in CurrentFunctionUiItems.GetUiItems(UiItemExtension.DefaultGroup ?? "")
+			orderby x.SortHint
+			select x).ForEach(delegate(UiItem x)
+		{
+			LeftUiItems.Add(x);
+		});
+		DefaultToolUiItems.Clear();
+		(from x in CurrentFunctionUiItems.GetUiItems(UiItemExtension.DefaultGroup + "1")
+			orderby x.SortHint
+			select x).ForEach(delegate(UiItem x)
+		{
+			DefaultToolUiItems.Add(x);
+		});
+		ImageUiItems.Clear();
+		(from x in CurrentFunctionUiItems.GetUiItems(UiItemExtension.DefaultGroup + "2")
+			orderby x.SortHint
+			select x).ForEach(delegate(UiItem x)
+		{
+			ImageUiItems.Add(x);
+		});
+		SidebarUiItems.Clear();
+		(from x in CurrentFunctionUiItems.GetUiItems(UiItemExtension.DefaultGroup + "3")
+			orderby x.SortHint
+			select x).ForEach(delegate(UiItem x)
+		{
+			SidebarUiItems.Add(x);
+		});
+		ExtentionUiItems.Clear();
+		(from x in CurrentFunctionUiItems.GetUiItems(UiItemExtension.DefaultGroup + "4")
+			orderby x.SortHint
+			select x).ForEach(delegate(UiItem x)
+		{
+			ExtentionUiItems.Add(x);
+		});
+	}
+}

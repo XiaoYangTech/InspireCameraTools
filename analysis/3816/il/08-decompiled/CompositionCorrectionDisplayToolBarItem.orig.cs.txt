@@ -1,0 +1,22 @@
+ILSpy 反编译原版 EasiCamera.UI.dll。类型名 → Key=CompositionCorrection → Text=Lang.DisplayToolBar.CompositionCorrection=英文批改。
+
+using System.Windows.Controls;
+using Cvte.Windows.Input;
+
+namespace EasiCamera.UI;
+
+public class CompositionCorrectionDisplayToolBarItem : DisplayToolBarItem
+{
+	public CompositionCorrectionDisplayToolBarItem()
+	{
+		base.SortHint = 102.0;
+		base.FunctionModule = FunctionModule.MainWindow;
+		base.Command = new DelegateCommand(delegate
+		{
+			Grid theMainGrid = EC.UiService.TheMainGrid;
+			ScanCompositionControl element = new ScanCompositionControl();
+			theMainGrid.Children.Add(element);
+			EC.UiService.SideBarManager.HideSideBar();
+		});
+	}
+}

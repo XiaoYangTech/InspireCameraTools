@@ -1,0 +1,120 @@
+{
+  "ok": true,
+  "version": "2.0.10.4087",
+  "display_name": "V2.0.10.4087",
+  "main_dir": "D:\\开发\\SeewoCamera\\work\\re4087\\main",
+  "features": [
+    {
+      "feature": {
+        "id": "no_third_party_block",
+        "name": "去除新版本不允许使用第三方展台的限制",
+        "description": "解除新版对非希沃展台的屏蔽，让普通 USB 摄像头/第三方展台也能出画面。",
+        "risk": null,
+        "default_on": true
+      },
+      "id": "no_third_party_block",
+      "name": "去除新版本不允许使用第三方展台的限制",
+      "available": false,
+      "reason": "2.0.10.4087 没有云端「第三方展台屏蔽」开关（CancelShieldThirdParty 自 2.1.0 起引入），本版本设备列表不按该开关过滤，无需补丁",
+      "already_patched": false
+    },
+    {
+      "feature": {
+        "id": "force_scan",
+        "name": "去除第三方展台不能用扫描的限制",
+        "description": "强制显示「扫描 / 文档增强」工具按钮，不再按希沃机型白名单隐藏。",
+        "risk": null,
+        "default_on": true
+      },
+      "id": "force_scan",
+      "name": "去除第三方展台不能用扫描的限制",
+      "available": true,
+      "reason": null,
+      "already_patched": false
+    },
+    {
+      "feature": {
+        "id": "hide_login",
+        "name": "去除登录按钮",
+        "description": "隐藏主界面右上角的登录 / 头像入口（仅隐藏入口，不改变登录逻辑本身）。",
+        "risk": null,
+        "default_on": true
+      },
+      "id": "hide_login",
+      "name": "去除登录按钮",
+      "available": true,
+      "reason": null,
+      "already_patched": false
+    },
+    {
+      "feature": {
+        "id": "disable_freeze",
+        "name": "去除兆芯/海光锁画面限制",
+        "description": "取消国产化芯片机器进入批注等模式时自动冻结画面，恢复实时画面。",
+        "risk": "warning:国产化平台（兆芯/海光）可能出现批注卡顿",
+        "default_on": false
+      },
+      "id": "disable_freeze",
+      "name": "去除兆芯/海光锁画面限制",
+      "available": false,
+      "reason": "2.0.10.4087 没有国产化芯片自动冻结逻辑（HomeMaidChipHandler / IsHomeMaidChip 自 2.0.10.4229 起才有），无自动冻结可去除",
+      "already_patched": false
+    },
+    {
+      "feature": {
+        "id": "enable_hygon_freeze",
+        "name": "为海光处理器加入锁画面功能（修复批注卡顿）",
+        "description": "让程序把本机识别为国产化芯片，启用点击画笔自动冻结画面，缓解海光平台批注卡顿。",
+        "risk": "warning:补丁会强制启用冻结逻辑，非海光/兆芯机器可能出现画面冻结，建议仅在卡顿时使用",
+        "default_on": false
+      },
+      "id": "enable_hygon_freeze",
+      "name": "为海光处理器加入锁画面功能（修复批注卡顿）",
+      "available": false,
+      "reason": "2.0.10.4087 的 EasiCamera.Util.HardwareRecognizer 无国产化芯片识别（无 ZhaoXin/HaiGuang 判定），无法启用自动冻结；需 2.0.10.4229 及以上",
+      "already_patched": false
+    },
+    {
+      "feature": {
+        "id": "remove_english",
+        "name": "去除英文批改",
+        "description": "移除英文批改相关入口，界面更简洁（不改变其他批改功能）。",
+        "risk": null,
+        "default_on": true
+      },
+      "id": "remove_english",
+      "name": "去除英文批改",
+      "available": true,
+      "reason": null,
+      "already_patched": false
+    },
+    {
+      "feature": {
+        "id": "remove_ocr",
+        "name": "去除OCR（智能识别）",
+        "description": "隐藏「智能识别 / 口算批改」等 OCR 入口，避免误触与弹出。",
+        "risk": null,
+        "default_on": true
+      },
+      "id": "remove_ocr",
+      "name": "去除OCR（智能识别）",
+      "available": true,
+      "reason": null,
+      "already_patched": false
+    },
+    {
+      "feature": {
+        "id": "disable_ai_key",
+        "name": "禁用展台AI按键",
+        "description": "屏蔽展台硬件 AI 按键（HID 命令 13）触发智能识别 / AI 菜单。",
+        "risk": null,
+        "default_on": true
+      },
+      "id": "disable_ai_key",
+      "name": "禁用展台AI按键",
+      "available": true,
+      "reason": null,
+      "already_patched": false
+    }
+  ]
+}

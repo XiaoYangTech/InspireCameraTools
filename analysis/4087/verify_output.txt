@@ -1,0 +1,74 @@
+==============================================================================
+EasiCamera 2.0.10.4087 规则校验（原版 Main: D:\开发\SeewoCamera\extracted\v20240912161108\EasiCamera_2.0.10.4087\Main）
+==============================================================================
+  [ OK ] 规则版本号（实际 '2.0.10.4087' / 期望 '2.0.10.4087'）
+  [ OK ] 规则格式合法（validate_rule）: 无错误
+  [ OK ] 功能 remove_ocr 至少有一条 op
+  [ OK ] 功能 hide_login 至少有一条 op
+  [ OK ] 功能 force_scan 至少有一条 op
+  [ OK ] 功能 remove_english 至少有一条 op
+  [ OK ] 功能 disable_ai_key 至少有一条 op
+
+[1] 原版文件 SHA-256 指纹
+  [ OK ] EasiCamera.UI.dll 原版 SHA-256（实际 'fcaa674bcc7567df87497d24305ae5e4207d3458ae68d29dd915d01d4a7c2443' / 期望 'fcaa674bcc7567df87497d24305ae5e4207d3458ae68d29dd915d01d4a7c2443'）
+  [ OK ] EasiCamera.Business.dll 原版 SHA-256（实际 '5345738297bb2e4a6cf7e1126ac8052641d331dbc39304cf40fadd2d54003fcd' / 期望 '5345738297bb2e4a6cf7e1126ac8052641d331dbc39304cf40fadd2d54003fcd'）
+  [ OK ] EasiCamera.exe 原版 SHA-256（实际 '50ee51a7ee2527a31f82ed0aa0a3e407eed3107be09dc1f4fc5d898a4b453f36' / 期望 '50ee51a7ee2527a31f82ed0aa0a3e407eed3107be09dc1f4fc5d898a4b453f36'）
+
+[2] 单功能补丁（expected 断言 + 补丁后 SHA-256）
+  [ OK ] remove_ocr/EasiCamera.UI.dll 补丁后 SHA-256（实际 'b55847ff1427ea918ef95186c00e564ebe65ccba030c1637ce9135bdcb0985fa' / 期望 'b55847ff1427ea918ef95186c00e564ebe65ccba030c1637ce9135bdcb0985fa'）
+  [ OK ] remove_ocr/EasiCamera.UI.dll 补丁后文件确实变化
+  [ OK ] EasiCamera.UI.dll 偏移 0x10CC9 补丁后字节（实际 '02161628a604000a0223000000000080594028a704000a021628a804000a2a' / 期望 '02161628a604000a0223000000000080594028a704000a021628a804000a2a'）
+  [ OK ] hide_login/EasiCamera.UI.dll 补丁后 SHA-256（实际 '791aeef8cf69eabfaa8b5fa9bd9a86e2f7ff037717f6d75324b6d61bbf2f7cc9' / 期望 '791aeef8cf69eabfaa8b5fa9bd9a86e2f7ff037717f6d75324b6d61bbf2f7cc9'）
+  [ OK ] hide_login/EasiCamera.UI.dll 补丁后文件确实变化
+  [ OK ] EasiCamera.UI.dll 偏移 0x1E773 补丁后字节（实际 '027b18040004186fe601000a00000000' / 期望 '027b18040004186fe601000a00000000'）
+  [ OK ] EasiCamera.UI.dll 偏移 0x1E8BC 补丁后字节（实际 '160b2b02' / 期望 '160b2b02'）
+  [ OK ] force_scan/EasiCamera.UI.dll 补丁后 SHA-256（实际 '65e9bfcc5a514e6236a905c8c89006e14a9e2056a3adfa42a0fafadd7c6e83c0' / 期望 '65e9bfcc5a514e6236a905c8c89006e14a9e2056a3adfa42a0fafadd7c6e83c0'）
+  [ OK ] force_scan/EasiCamera.UI.dll 补丁后文件确实变化
+  [ OK ] EasiCamera.UI.dll 偏移 0x10BD6 补丁后字节（实际 '027ebb04000a168c030100016f1001000a00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000' / 期望 '027ebb04000a168c030100016f1001000a00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000'）
+  [ OK ] remove_english/EasiCamera.UI.dll 补丁后 SHA-256（实际 'ae1d8591cb7d85d4bbf590fdf3605fd38090924d87dbc6a72435f37a3727a968' / 期望 'ae1d8591cb7d85d4bbf590fdf3605fd38090924d87dbc6a72435f37a3727a968'）
+  [ OK ] remove_english/EasiCamera.UI.dll 补丁后文件确实变化
+  [ OK ] EasiCamera.UI.dll 偏移 0x1556A 补丁后字节（实际 '027bce020004186fe601000a2a0000000000000000000000' / 期望 '027bce020004186fe601000a2a0000000000000000000000'）
+  [ OK ] disable_ai_key/EasiCamera.Business.dll 补丁后 SHA-256（实际 '50a565decf9c7a847082cc6b6853deb06644ad65a6bc7c517e641aab315358a2' / 期望 '50a565decf9c7a847082cc6b6853deb06644ad65a6bc7c517e641aab315358a2'）
+  [ OK ] disable_ai_key/EasiCamera.Business.dll 补丁后文件确实变化
+  [ OK ] EasiCamera.Business.dll 偏移 0x12B5 补丁后字节（实际 '1400000000' / 期望 '1400000000'）
+
+[3] 全部可用功能合并补丁
+  [ OK ] EasiCamera.UI.dll 全功能补丁后 SHA-256（实际 '55e089394ef128ac297fe575b6eafda831890a522d1ff37a5645d4630acbdedd' / 期望 '55e089394ef128ac297fe575b6eafda831890a522d1ff37a5645d4630acbdedd'）
+  [ OK ] EasiCamera.Business.dll 全功能补丁后 SHA-256（实际 '50a565decf9c7a847082cc6b6853deb06644ad65a6bc7c517e641aab315358a2' / 期望 '50a565decf9c7a847082cc6b6853deb06644ad65a6bc7c517e641aab315358a2'）
+
+[4] 幂等性（对已补丁字节重复应用）
+  [ OK ] remove_ocr/EasiCamera.UI.dll 重复应用结果不变（实际 'b55847ff1427ea918ef95186c00e564ebe65ccba030c1637ce9135bdcb0985fa' / 期望 'b55847ff1427ea918ef95186c00e564ebe65ccba030c1637ce9135bdcb0985fa'）
+  [ OK ] hide_login/EasiCamera.UI.dll 重复应用结果不变（实际 '791aeef8cf69eabfaa8b5fa9bd9a86e2f7ff037717f6d75324b6d61bbf2f7cc9' / 期望 '791aeef8cf69eabfaa8b5fa9bd9a86e2f7ff037717f6d75324b6d61bbf2f7cc9'）
+  [ OK ] force_scan/EasiCamera.UI.dll 重复应用结果不变（实际 '65e9bfcc5a514e6236a905c8c89006e14a9e2056a3adfa42a0fafadd7c6e83c0' / 期望 '65e9bfcc5a514e6236a905c8c89006e14a9e2056a3adfa42a0fafadd7c6e83c0'）
+  [ OK ] remove_english/EasiCamera.UI.dll 重复应用结果不变（实际 'ae1d8591cb7d85d4bbf590fdf3605fd38090924d87dbc6a72435f37a3727a968' / 期望 'ae1d8591cb7d85d4bbf590fdf3605fd38090924d87dbc6a72435f37a3727a968'）
+  [ OK ] disable_ai_key/EasiCamera.Business.dll 重复应用结果不变（实际 '50a565decf9c7a847082cc6b6853deb06644ad65a6bc7c517e641aab315358a2' / 期望 '50a565decf9c7a847082cc6b6853deb06644ad65a6bc7c517e641aab315358a2'）
+
+[5] 不可用功能说明
+  [ OK ] unavailable_reason 覆盖 no_third_party_block
+  [ OK ] no_third_party_block 的原因包含关键字「第三方」
+  [ OK ] unavailable_reason 覆盖 disable_freeze
+  [ OK ] disable_freeze 的原因包含关键字「冻结」
+  [ OK ] unavailable_reason 覆盖 enable_hygon_freeze
+  [ OK ] enable_hygon_freeze 的原因包含关键字「冻结」
+  [ OK ] 功能 no_third_party_block 要么可用、要么有 unavailable_reason
+  [ OK ] 功能 force_scan 要么可用、要么有 unavailable_reason
+  [ OK ] 功能 hide_login 要么可用、要么有 unavailable_reason
+  [ OK ] 功能 disable_freeze 要么可用、要么有 unavailable_reason
+  [ OK ] 功能 enable_hygon_freeze 要么可用、要么有 unavailable_reason
+  [ OK ] 功能 remove_english 要么可用、要么有 unavailable_reason
+  [ OK ] 功能 remove_ocr 要么可用、要么有 unavailable_reason
+  [ OK ] 功能 disable_ai_key 要么可用、要么有 unavailable_reason
+
+==============================================================================
+补丁偏移 / 补丁后 SHA-256 汇总
+==============================================================================
+功能               文件                       偏移         长度     补丁后 SHA-256
+remove_ocr       EasiCamera.UI.dll        0x10CC9    31     b55847ff1427ea918ef95186c00e564ebe65ccba030c1637ce9135bdcb0985fa
+hide_login       EasiCamera.UI.dll        0x1E773,0x1E8BC 20     791aeef8cf69eabfaa8b5fa9bd9a86e2f7ff037717f6d75324b6d61bbf2f7cc9
+force_scan       EasiCamera.UI.dll        0x10BD6    84     65e9bfcc5a514e6236a905c8c89006e14a9e2056a3adfa42a0fafadd7c6e83c0
+remove_english   EasiCamera.UI.dll        0x1556A    24     ae1d8591cb7d85d4bbf590fdf3605fd38090924d87dbc6a72435f37a3727a968
+disable_ai_key   EasiCamera.Business.dll  0x12B5     5      50a565decf9c7a847082cc6b6853deb06644ad65a6bc7c517e641aab315358a2
+<全部功能>           EasiCamera.UI.dll        -          -      55e089394ef128ac297fe575b6eafda831890a522d1ff37a5645d4630acbdedd
+<全部功能>           EasiCamera.Business.dll  -          -      50a565decf9c7a847082cc6b6853deb06644ad65a6bc7c517e641aab315358a2
+
+结果：全部通过（47 项检查）。注意：仅静态/字节级验证，未在真机运行 EasiCamera。

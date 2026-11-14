@@ -1,0 +1,94 @@
+ILSpy 反编译原版 EasiCamera.UI.dll，ScanCompositionControl.cs 第 210-300 行（StartRequest）。
+证明点击「英文批改」后走的是英文作文批改链路。
+
+	}
+
+	private async void StartRequest(bool isFromPicture = false)
+	{
+		AdornerHelper.RemoveTipsAdorner();
+		if (!isFromPicture)
+		{
+			await Task.Delay(300);
+			BitmapSource bitmap = Snapshot.Take(_left * Dpi.System.FactorX, _top * Dpi.System.FactorX, _width * Dpi.System.FactorX, _height * Dpi.System.FactorX);
+			_bitmap = bitmap.ToBitmap();
+			string filename = System.IO.Path.Combine(EC.Path.TempFolder, Guid.NewGuid().ToString() + ".jpg");
+			_bitmap.Save(filename);
+		}
+		string imageBase;
+		using (MemoryStream memoryStream = new MemoryStream())
+		{
+			_bitmap.Save(memoryStream, System.Drawing.Imaging.ImageFormat.Jpeg);
+			byte[] buffer = memoryStream.GetBuffer();
+			imageBase = _base64Prex + Convert.ToBase64String(buffer);
+		}
+		if (_cancellationTokenSource.IsCancellationRequested)
+		{
+			return;
+		}
+		EnterSearchComposition();
+		GetOcrTextResponse getOcrTextResponse = await Cvte.Composition.Container.Current.Get<IEnglishCompositionProvider>().GetOcrText(imageBase);
+		if (_cancellationTokenSource.IsCancellationRequested)
+		{
+			return;
+		}
+		if (getOcrTextResponse.Success && getOcrTextResponse.Status == 0)
+		{
+			EnterCorrectionComposition();
+			_compositionString = getOcrTextResponse.TextInfo.Context;
+			CorrectEnglishCompositionResponse correctEnglishCompositionResponse = await Cvte.Composition.Container.Current.Get<IEnglishCompositionProvider>().GetCorrectEnglishCompositionByTextResult(_compositionString);
+			ExitButton.IsEnabled = false;
+			if (_cancellationTokenSource.IsCancellationRequested)
+			{
+				return;
+			}
+			if ((correctEnglishCompositionResponse.Success && correctEnglishCompositionResponse.Status == 0) || correctEnglishCompositionResponse.Status == 2400)
+			{
+				EnterFinishCompositionCorrection();
+				try
+				{
+					CorrectionResultElement correctionResultElement = new CorrectionResultElement(correctEnglishCompositionResponse.CompositionCorrection.Result, _compositionString, getOcrTextResponse.TextInfo.Title)
+					{
+						Location = default(System.Windows.Point)
+					};
+					CorrectionResultImageElement correctionResultImageElement = new CorrectionResultImageElement(correctEnglishCompositionResponse.CompositionCorrection.Result, _compositionString);
+					await Task.Delay(500);
+					ExitScanComposition();
+					if (EC.CameraApi.DeviceViewModel.IsCurrentWirelessCamera)
+					{
+						WirelessCameraVisualBrush obj = EC.BoardApi.CurrentSlide.Elements.OfType<WirelessCameraVisualBrush>()?.FirstOrDefault();
+						LastWirelessCameraIp = obj?.Camera.Ip;
+						obj?.Close();
+						EC.BoardApi.DeleteSlide(EC.BoardApi.CurrentSlide);
+						IsLastWirelessCamera = true;
+					}
+					else
+					{
+						IsLastWirelessCamera = false;
+						LastSlideIndex = EC.BoardApi.CurrentSlideIndex;
+					}
+					EC.BoardApi.GoToSlide(2);
+					EC.BoardApi.CurrentSlide.Add(correctionResultElement);
+					correctionResultImageElement.Location = new System.Windows.Point(453.0, 0.0);
+					TransformSlide transformSlide = new TransformSlide
+					{
+						Background = System.Windows.Media.Brushes.Transparent,
+						Width = EC.BoardApi.Board.SlideSize.Width,
+						Height = EC.BoardApi.Board.SlideSize.Height
+					};
+					transformSlide.Add(correctionResultImageElement);
+					EC.BoardApi.InsertSlide(transformSlide);
+					AddPictureToSlideAsync(transformSlide, correctionResultImageElement);
+					EC.BoardApi.StoreFunctionModule(FunctionModule.CompositionCorrection);
+					EC.BoardApi.RaiseCancelSelectAllSlide();
+				}
+				catch (Exception ex)
+				{
+					Log.Error("Get CorrectResultElement Error!", ex);
+					EC.MyouService.PostException(ex, "Get CorrectResultElement Error!");
+					EC.EventReporter.ReportEvent("Get_Correct_Result_Element_Error");
+					ExitScanComposition();
+				}
+			}
+			else
+			{
+				ShowErrorMessage(!correctEnglishCompositionResponse.IsSuccessStatusCode, correctEnglishCompositionResponse.Status);

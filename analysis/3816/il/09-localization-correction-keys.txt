@@ -1,0 +1,19 @@
+来源: Main/Localizations/zh-CHS/EasiCamera.xaml（2.0.10.3816，UTF-8，共 408 行）
+筛选: 含「批改」或「英文」的全部 key（共 11 条）
+
+L43   <s:String x:Key="Lang.DisplayToolBar.CompositionCorrection">英文批改</s:String>
+L60   <s:String x:Key="Lang.DisplayToolBar.Recorrect">再次批改</s:String>
+L61   <s:String x:Key="Lang.DisplayToolBar.ExitCorrection">退出批改</s:String>
+L240  <s:String x:Key="Lang.ImageEnhance.PleaseUseEnglishComposition">请选择英文作文进行批改</s:String>
+L319  <s:String x:Key="Lang.ScanComposition.CorrectNotice1">正在批改，请勿移动</s:String>
+L320  <s:String x:Key="Lang.ScanComposition.FinishCorrection">批改完成</s:String>
+L325  <s:String x:Key="Lang.ScanComposition.Exit">退出批改</s:String>
+L326  <s:String x:Key="Lang.ScanComposition.Recorrect">重新批改</s:String>
+L329  <s:String x:Key="Lang.CompositionResult.GeneralCorrection">批改汇总</s:String>
+L330  <s:String x:Key="Lang.CompositionResult.ViewDetail">查看批改详情</s:String>
+L337  <s:String x:Key="Lang.CompositionResult.ResultImageTitle">希沃视频展台 · 英语作文智能批改</s:String>
+
+说明:
+  * L43 Lang.DisplayToolBar.CompositionCorrection = 「英文批改」—— 工具栏按钮文案，由 DisplayToolBarItem 基类构造: Text = Lang.TryGet("Lang.DisplayToolBar." + Key)，Key=类型名去掉 DisplayToolBarItem。
+  * 其余 key 是「英文批改」流程内的提示/结果文案（再次批改/退出批改/英语作文智能批改等），不是独立入口。
+  * 无「口算」「圈词」「OCR」「智能识别」类 key。

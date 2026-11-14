@@ -1,0 +1,151 @@
+# 3816 全程序集符号/字符串核对证据（用于功能可用性矩阵）
+# 目标: Main/ 下全部 *.dll *.exe；方法: grep -la（UTF-8 元数据字符串，含 #Strings/#US 堆）；本地化用 zh-CHS/EasiCamera.xaml
+# 命令: cd extracted/v2.0.10.3816/EasiCamera_2.0.10.3816/Main && grep -la '<符号>' *.dll *.exe
+
+## 1) 批改/英文批改相关
+$ grep -la "CompositionCorrection" *.dll *.exe
+EasiCamera.Api.dll
+EasiCamera.UI.dll
+EasiCamera.exe
+
+$ grep -la "EnglishComposition\|CorrectEnglish\|IEnglishCompositionProvider" *.dll *.exe
+EasiCamera.Api.dll
+EasiCamera.Business.dll
+EasiCamera.UI.dll
+EasiCamera.exe
+
+## 2) 不存在 AIMenu / 口算批改 / 英文圈词 / 智能识别(OCR) 入口
+$ grep -la "AIMenu" *.dll *.exe
+(无匹配)
+
+$ grep -la "IntelligentIdentification" *.dll *.exe
+(无匹配)
+
+$ grep -la "StartAiRecognition" *.dll *.exe
+(无匹配)
+
+$ grep -la "OpenAIMenu" *.dll *.exe
+(无匹配)
+
+$ grep -la "AiKeyTip" *.dll *.exe
+(无匹配)
+
+$ grep -la "IsShowIntelligentIdentification" *.dll *.exe
+(无匹配)
+
+$ grep -la "WordCut" *.dll *.exe
+(无匹配)
+
+$ grep -la "Homework" *.dll *.exe
+(无匹配)
+
+$ grep -la "WordCutOcr" *.dll *.exe
+(无匹配)
+
+## 3) 中文「口算/圈词」字面量
+$ grep -la "口算" *.dll *.exe / 本地化 xaml
+(二进制无匹配)
+(xaml 无匹配)
+
+$ grep -la "圈词" *.dll *.exe / 本地化 xaml
+(二进制无匹配)
+(xaml 无匹配)
+
+## 4) 登录/账号/第三方展台屏蔽/国产化冻结（该版本均不存在）
+$ grep -la "ProfileButton" *.dll *.exe
+(无匹配)
+
+$ grep -la "TryAutoLoginWithSso" *.dll *.exe
+(无匹配)
+
+$ grep -la "SaveUserInfoToLocalSso" *.dll *.exe
+(无匹配)
+
+$ grep -la "CancelShieldThirdParty" *.dll *.exe
+(无匹配)
+
+$ grep -la "HomeMaid" *.dll *.exe
+(无匹配)
+
+$ grep -la "HardwareRecognizer" *.dll *.exe
+EasiCamera.Business.dll
+EasiCamera.UI.dll
+EasiCamera.Util.dll
+
+$ grep -la "zhaoxin" *.dll *.exe
+(无匹配)
+
+$ grep -la "hygon" *.dll *.exe
+(无匹配)
+
+$ grep -la "ProcessorNameString" *.dll *.exe
+(无匹配)
+
+$ grep -la "IsShowBlackboardCamera" *.dll *.exe
+EasiCamera.Api.dll
+EasiCamera.Business.dll
+
+## 5) 本地化：登录相关 key
+$ grep -n "登录\|Login" Localizations/zh-CHS/EasiCamera.xaml
+142:    <s:String x:Key="Lang.Update.Login">请登录</s:String>
+
+## 6) 本地化：英文资源缺 CompositionCorrection key（英文界面 fallback 为类型 Key）
+$ grep -n "CompositionCorrection" Localizations/en/EasiCamera.xaml
+(无匹配)
+
+## 7) HID 输入命令分支（CommonHidComponent.DataProcess，EasiCamera.Business.dll）
+反编译源码（work/re3816/biz_src_EasiCamera.Business/EasiCamera.Business/CommonHidComponent.cs:634-719）：
+4:		if (data == null || data.Length <= 3 || data[0] != 187 || data[1] != 204)
+8:		if (data[2] == 1)
+35:		if (data[2] == 2 && data.Length > 8)
+54:		if (data[2] == 3 && data.Length >= 7 && data[3] == 1)
+58:		if (data[2] == 4 && data.Length >= 4 && data[3] == 1)
+62:		if (data[2] == 5 && data.Length >= 8)
+68:		if (data[2] == 6 && data.Length >= 12 && string.IsNullOrEmpty(McuVersion))
+
+## 8) 设备枚举无第三方屏蔽（GlobalDeviceViewModel._0001()，EasiCamera.Business.dll）
+	private IList<CameraInfo> _0001()
+	{
+		List<CameraInfo> list = new List<CameraInfo>();
+		DsDevice[] physicsVideoInputDevices = MultimediaUtil.PhysicsVideoInputDevices;
+		if (physicsVideoInputDevices.Any())
+		{
+			physicsVideoInputDevices.ForEach(delegate(DsDevice _0002)
+			{
+				if (!EC.AppConfig.ConfigData.IsShowBlackboardCamera)
+				{
+					if (!CameraExtension.IsSpecificCamera(_0002.DevicePath, 7119, 1) || physicsVideoInputDevices.Any(_003C_003Ec._003C_003E9._0001))
+					{
+						list.Add(new CameraInfo(_0002));
+					}
+				}
+				else
+				{
+					list.Add(new CameraInfo(_0002));
+				}
+			});
+		}
+		foreach (CameraInfo item in list.FindAll((CameraInfo _0002) => _0002.DisplayName.ToLowerInvariant().Contains("virtual")).ToList())
+		{
+			list.Remove(item);
+		}
+		return list;
+	}
+
+## 9) 冻结仅为手动画面锁定（无 CPU/国产化判断）
+$ grep -n "Freeze" work/.../BusineseModule.cs
+133:				if (!EC.CameraApi.DeviceViewModel.MainPreViewElement.CameraInstance.IsFreeze)
+166:					EC.BoardApi.RaiseNotifyMessage(Lang.Get("Lang.Info.UnFreezeBeforeCapture"));
+304:		ECCommands.FreezeCamera = new DelegateCommand(_0011, this._0002);
+305:		ECCommands.UnFreezeCamera = new DelegateCommand(_0012, this._0002);
+503:		Log.Info($"[CaptureImage] IsFreeze: {cameraInstance.IsFreeze}");
+504:		if (!cameraInstance.IsFreeze)
+535:			EC.BoardApi.RaiseNotifyMessage(Lang.Get("Lang.Info.UnFreezeBeforeCapture"));
+
+## 4b) 说明：3816 的 HardwareRecognizer 不是 CPU/国产化识别
+- 上述 grep 命中 `HardwareRecognizer`（Business/UI/Util.dll），但反编译
+  `work/re3816/biz_src_EasiCamera.Util/EasiCamera.Util/HardwareRecognizer.cs` 可见其成员为
+  `IsIwb`（由桌面 iwb.txt 或 McuHunter 判定一体机）、`FindAll/Find/Confirm/GetDeviceList`（USB MCU 设备），
+  被 FlatFrogBoardModule / Generation6OrCompatibleDeviceBoardModule / SmartBoardModule / MyouService 使用；
+- 该版本**没有** `IsHomeMaidChip` / `Win32_Processor` / `ProcessorNameString` / `zhaoxin` / `hygon` 符号，
+  因此不存在 4229/4419 的「国产化芯片自动冻结画面」链路（同名类只是 MCU/IWB 识别，属同名不同物）。

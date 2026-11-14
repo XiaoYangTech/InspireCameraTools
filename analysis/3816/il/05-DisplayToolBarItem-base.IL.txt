@@ -1,0 +1,402 @@
+来源: EasiCamera.Api.dll（2.0.10.3816）反编译 IL。
+关键证据（「英文批改」按钮文案来源）：
+  * DisplayToolBarItem..ctor：Key = 类型名去掉 "DisplayToolBarItem"（→ "CompositionCorrection"）；
+  * Text = Lang.TryGet("Lang.DisplayToolBar." + Key) → Lang.DisplayToolBar.CompositionCorrection = "英文批改"；
+  * IsShowUiItem = (FunctionModule & functionModule) != 0 —— remove_english 的语义依据。
+
+.class public auto ansi abstract beforefieldinit EasiCamera.DisplayToolBarItem
+	extends EasiCamera.UiItem
+{
+	// Fields
+	.field private bool '<HasSeparationLine>k__BackingField'
+	.custom instance void [mscorlib]System.Runtime.CompilerServices.CompilerGeneratedAttribute::.ctor() = (
+		01 00 00 00
+	)
+	.field public static initonly class [WindowsBase]System.Windows.DependencyProperty IconKeyProperty
+	.field public static initonly class [WindowsBase]System.Windows.DependencyProperty IsEnabledProperty
+	.field public static initonly class [WindowsBase]System.Windows.DependencyProperty VisibilityProperty
+
+	// Methods
+	.method family hidebysig specialname rtspecialname 
+		instance void .ctor (
+			[opt] bool hasSeparationLine,
+			[opt] valuetype EasiCamera.ItemType itemType
+		) cil managed 
+	{
+		.param [1] = bool(false)
+		.param [2] = int32(0)
+		// Method begins at RVA 0x9af8
+		// Header size: 12
+		// Code size: 278 (0x116)
+		.maxstack 4
+		.locals init (
+			[0] string
+		)
+
+		IL_0000: ldarg.0
+		IL_0001: call instance void EasiCamera.UiItem::.ctor()
+		IL_0006: ldarg.0
+		IL_0007: ldarg.1
+		IL_0008: call instance void EasiCamera.DisplayToolBarItem::set_HasSeparationLine(bool)
+		IL_000d: ldarg.0
+		IL_000e: ldarg.2
+		IL_000f: call instance void EasiCamera.UiItem::set_ItemType(valuetype EasiCamera.ItemType)
+		IL_0014: ldarg.0
+		IL_0015: call instance string EasiCamera.UiItem::get_Key()
+		IL_001a: call bool [mscorlib]System.String::IsNullOrEmpty(string)
+		IL_001f: brfalse.s IL_0091
+
+		IL_0021: ldarg.0
+		IL_0022: call instance class [mscorlib]System.Type [mscorlib]System.Object::GetType()
+		IL_0027: callvirt instance string [mscorlib]System.Reflection.MemberInfo::get_Name()
+		IL_002c: ldstr "DisplayToolBarItem"
+		IL_0031: call bool [System]System.Text.RegularExpressions.Regex::IsMatch(string, string)
+		IL_0036: brfalse.s IL_005a
+
+		IL_0038: ldarg.0
+		IL_0039: ldarg.0
+		IL_003a: call instance class [mscorlib]System.Type [mscorlib]System.Object::GetType()
+		IL_003f: callvirt instance string [mscorlib]System.Reflection.MemberInfo::get_Name()
+		IL_0044: ldstr "DisplayToolBarItem"
+		IL_0049: ldsfld string [mscorlib]System.String::Empty
+		IL_004e: callvirt instance string [mscorlib]System.String::Replace(string, string)
+		IL_0053: call instance void EasiCamera.UiItem::set_Key(string)
+		IL_0058: br.s IL_0091
+
+		IL_005a: ldarg.0
+		IL_005b: call instance class [mscorlib]System.Type [mscorlib]System.Object::GetType()
+		IL_0060: callvirt instance string [mscorlib]System.Reflection.MemberInfo::get_Name()
+		IL_0065: ldstr "DisplayModeToolBarItem"
+		IL_006a: call bool [System]System.Text.RegularExpressions.Regex::IsMatch(string, string)
+		IL_006f: brfalse.s IL_0091
+
+		IL_0071: ldarg.0
+		IL_0072: ldarg.0
+		IL_0073: call instance class [mscorlib]System.Type [mscorlib]System.Object::GetType()
+		IL_0078: callvirt instance string [mscorlib]System.Reflection.MemberInfo::get_Name()
+		IL_007d: ldstr "DisplayModeToolBarItem"
+		IL_0082: ldsfld string [mscorlib]System.String::Empty
+		IL_0087: callvirt instance string [mscorlib]System.String::Replace(string, string)
+		IL_008c: call instance void EasiCamera.UiItem::set_Key(string)
+
+		IL_0091: ldarg.0
+		IL_0092: call bool [PresentationFramework]System.ComponentModel.DesignerProperties::GetIsInDesignMode(class [WindowsBase]System.Windows.DependencyObject)
+		IL_0097: brfalse.s IL_00ac
+
+		IL_0099: ldarg.0
+		IL_009a: ldsfld class [WindowsBase]System.Windows.DependencyProperty EasiCamera.UiItem::TextProperty
+		IL_009f: ldarg.0
+		IL_00a0: call instance string EasiCamera.UiItem::get_Key()
+		IL_00a5: call instance void [WindowsBase]System.Windows.DependencyObject::SetValue(class [WindowsBase]System.Windows.DependencyProperty, object)
+		IL_00aa: br.s IL_00d9
+
+		IL_00ac: ldarg.0
+		IL_00ad: ldsfld class [WindowsBase]System.Windows.DependencyProperty EasiCamera.UiItem::TextProperty
+		IL_00b2: ldstr "Lang.DisplayToolBar."
+		IL_00b7: ldarg.0
+		IL_00b8: call instance string EasiCamera.UiItem::get_Key()
+		IL_00bd: call string [mscorlib]System.String::Concat(string, string)
+		IL_00c2: ldloca.s 0
+		IL_00c4: call bool [Cvte.Windows.cc]Cvte.Windows.Localization.Lang::TryGet(string, string&)
+		IL_00c9: brtrue.s IL_00d3
+
+		IL_00cb: ldarg.0
+		IL_00cc: call instance string EasiCamera.UiItem::get_Key()
+		IL_00d1: br.s IL_00d4
+
+		IL_00d3: ldloc.0
+
+		IL_00d4: call instance void [WindowsBase]System.Windows.DependencyObject::SetValue(class [WindowsBase]System.Windows.DependencyProperty, object)
+
+		IL_00d9: ldarg.0
+		IL_00da: ldstr "Geometry."
+		IL_00df: ldarg.0
+		IL_00e0: call instance string EasiCamera.UiItem::get_Key()
+		IL_00e5: call string [mscorlib]System.String::Concat(string, string)
+		IL_00ea: call instance void EasiCamera.DisplayToolBarItem::set_IconKey(string)
+		IL_00ef: ldsfld class [WindowsBase]System.Windows.DependencyProperty EasiCamera.UiItem::IsCanClickDisabledProperty
+		IL_00f4: ldtoken [PresentationFramework]System.Windows.Controls.RichTextBox
+		IL_00f9: call class [mscorlib]System.Type [mscorlib]System.Type::GetTypeFromHandle(valuetype [mscorlib]System.RuntimeTypeHandle)
+		IL_00fe: call class [WindowsBase]System.ComponentModel.DependencyPropertyDescriptor [WindowsBase]System.ComponentModel.DependencyPropertyDescriptor::FromProperty(class [WindowsBase]System.Windows.DependencyProperty, class [mscorlib]System.Type)
+		IL_0103: ldarg.0
+		IL_0104: ldarg.0
+		IL_0105: ldftn instance void EasiCamera.DisplayToolBarItem::'<.ctor>b__0_0'(object, class [mscorlib]System.EventArgs)
+		IL_010b: newobj instance void [mscorlib]System.EventHandler::.ctor(object, native int)
+		IL_0110: callvirt instance void [System]System.ComponentModel.PropertyDescriptor::AddValueChanged(object, class [mscorlib]System.EventHandler)
+		IL_0115: ret
+	} // end of method DisplayToolBarItem::.ctor
+
+	.method public hidebysig virtual 
+		instance bool IsShowUiItem (
+			valuetype EasiCamera.FunctionModule functionModule
+		) cil managed 
+	{
+		// Method begins at RVA 0x9c1a
+		// Header size: 1
+		// Code size: 12 (0xc)
+		.maxstack 8
+
+		IL_0000: ldarg.0
+		IL_0001: call instance valuetype EasiCamera.FunctionModule EasiCamera.UiItem::get_FunctionModule()
+		IL_0006: ldarg.1
+		IL_0007: and
+		IL_0008: ldc.i4.0
+		IL_0009: cgt.un
+		IL_000b: ret
+	} // end of method DisplayToolBarItem::IsShowUiItem
+
+	.method public hidebysig specialname 
+		instance bool get_HasSeparationLine () cil managed 
+	{
+		.custom instance void [mscorlib]System.Runtime.CompilerServices.CompilerGeneratedAttribute::.ctor() = (
+			01 00 00 00
+		)
+		// Method begins at RVA 0x9c27
+		// Header size: 1
+		// Code size: 7 (0x7)
+		.maxstack 8
+
+		IL_0000: ldarg.0
+		IL_0001: ldfld bool EasiCamera.DisplayToolBarItem::'<HasSeparationLine>k__BackingField'
+		IL_0006: ret
+	} // end of method DisplayToolBarItem::get_HasSeparationLine
+
+	.method family hidebysig specialname 
+		instance void set_HasSeparationLine (
+			bool 'value'
+		) cil managed 
+	{
+		.custom instance void [mscorlib]System.Runtime.CompilerServices.CompilerGeneratedAttribute::.ctor() = (
+			01 00 00 00
+		)
+		// Method begins at RVA 0x9c2f
+		// Header size: 1
+		// Code size: 8 (0x8)
+		.maxstack 8
+
+		IL_0000: ldarg.0
+		IL_0001: ldarg.1
+		IL_0002: stfld bool EasiCamera.DisplayToolBarItem::'<HasSeparationLine>k__BackingField'
+		IL_0007: ret
+	} // end of method DisplayToolBarItem::set_HasSeparationLine
+
+	.method public hidebysig specialname 
+		instance string get_IconKey () cil managed 
+	{
+		// Method begins at RVA 0x9c38
+		// Header size: 1
+		// Code size: 17 (0x11)
+		.maxstack 8
+
+		IL_0000: ldarg.0
+		IL_0001: ldsfld class [WindowsBase]System.Windows.DependencyProperty EasiCamera.DisplayToolBarItem::IconKeyProperty
+		IL_0006: call instance object [WindowsBase]System.Windows.DependencyObject::GetValue(class [WindowsBase]System.Windows.DependencyProperty)
+		IL_000b: castclass [mscorlib]System.String
+		IL_0010: ret
+	} // end of method DisplayToolBarItem::get_IconKey
+
+	.method public hidebysig specialname 
+		instance void set_IconKey (
+			string 'value'
+		) cil managed 
+	{
+		// Method begins at RVA 0x9c4a
+		// Header size: 1
+		// Code size: 13 (0xd)
+		.maxstack 8
+
+		IL_0000: ldarg.0
+		IL_0001: ldsfld class [WindowsBase]System.Windows.DependencyProperty EasiCamera.DisplayToolBarItem::IconKeyProperty
+		IL_0006: ldarg.1
+		IL_0007: call instance void [WindowsBase]System.Windows.DependencyObject::SetValue(class [WindowsBase]System.Windows.DependencyProperty, object)
+		IL_000c: ret
+	} // end of method DisplayToolBarItem::set_IconKey
+
+	.method public hidebysig specialname 
+		instance bool get_IsEnabled () cil managed 
+	{
+		// Method begins at RVA 0x9c58
+		// Header size: 1
+		// Code size: 17 (0x11)
+		.maxstack 8
+
+		IL_0000: ldarg.0
+		IL_0001: ldsfld class [WindowsBase]System.Windows.DependencyProperty EasiCamera.DisplayToolBarItem::IsEnabledProperty
+		IL_0006: call instance object [WindowsBase]System.Windows.DependencyObject::GetValue(class [WindowsBase]System.Windows.DependencyProperty)
+		IL_000b: unbox.any [mscorlib]System.Boolean
+		IL_0010: ret
+	} // end of method DisplayToolBarItem::get_IsEnabled
+
+	.method public hidebysig specialname 
+		instance void set_IsEnabled (
+			bool 'value'
+		) cil managed 
+	{
+		// Method begins at RVA 0x9c6a
+		// Header size: 1
+		// Code size: 18 (0x12)
+		.maxstack 8
+
+		IL_0000: ldarg.0
+		IL_0001: ldsfld class [WindowsBase]System.Windows.DependencyProperty EasiCamera.DisplayToolBarItem::IsEnabledProperty
+		IL_0006: ldarg.1
+		IL_0007: box [mscorlib]System.Boolean
+		IL_000c: call instance void [WindowsBase]System.Windows.DependencyObject::SetValue(class [WindowsBase]System.Windows.DependencyProperty, object)
+		IL_0011: ret
+	} // end of method DisplayToolBarItem::set_IsEnabled
+
+	.method public hidebysig specialname 
+		instance valuetype [PresentationCore]System.Windows.Visibility get_Visibility () cil managed 
+	{
+		// Method begins at RVA 0x9c7d
+		// Header size: 1
+		// Code size: 17 (0x11)
+		.maxstack 8
+
+		IL_0000: ldarg.0
+		IL_0001: ldsfld class [WindowsBase]System.Windows.DependencyProperty EasiCamera.DisplayToolBarItem::VisibilityProperty
+		IL_0006: call instance object [WindowsBase]System.Windows.DependencyObject::GetValue(class [WindowsBase]System.Windows.DependencyProperty)
+		IL_000b: unbox.any [PresentationCore]System.Windows.Visibility
+		IL_0010: ret
+	} // end of method DisplayToolBarItem::get_Visibility
+
+	.method public hidebysig specialname 
+		instance void set_Visibility (
+			valuetype [PresentationCore]System.Windows.Visibility 'value'
+		) cil managed 
+	{
+		// Method begins at RVA 0x9c8f
+		// Header size: 1
+		// Code size: 18 (0x12)
+		.maxstack 8
+
+		IL_0000: ldarg.0
+		IL_0001: ldsfld class [WindowsBase]System.Windows.DependencyProperty EasiCamera.DisplayToolBarItem::VisibilityProperty
+		IL_0006: ldarg.1
+		IL_0007: box [PresentationCore]System.Windows.Visibility
+		IL_000c: call instance void [WindowsBase]System.Windows.DependencyObject::SetValue(class [WindowsBase]System.Windows.DependencyProperty, object)
+		IL_0011: ret
+	} // end of method DisplayToolBarItem::set_Visibility
+
+	.method private hidebysig specialname rtspecialname static 
+		void .cctor () cil managed 
+	{
+		// Method begins at RVA 0x9ca4
+		// Header size: 12
+		// Code size: 134 (0x86)
+		.maxstack 4
+
+		IL_0000: ldstr "IconKey"
+		IL_0005: ldtoken [mscorlib]System.String
+		IL_000a: call class [mscorlib]System.Type [mscorlib]System.Type::GetTypeFromHandle(valuetype [mscorlib]System.RuntimeTypeHandle)
+		IL_000f: ldtoken EasiCamera.DisplayToolBarItem
+		IL_0014: call class [mscorlib]System.Type [mscorlib]System.Type::GetTypeFromHandle(valuetype [mscorlib]System.RuntimeTypeHandle)
+		IL_0019: ldnull
+		IL_001a: newobj instance void [WindowsBase]System.Windows.PropertyMetadata::.ctor(object)
+		IL_001f: call class [WindowsBase]System.Windows.DependencyProperty [WindowsBase]System.Windows.DependencyProperty::Register(string, class [mscorlib]System.Type, class [mscorlib]System.Type, class [WindowsBase]System.Windows.PropertyMetadata)
+		IL_0024: stsfld class [WindowsBase]System.Windows.DependencyProperty EasiCamera.DisplayToolBarItem::IconKeyProperty
+		IL_0029: ldstr "IsEnabled"
+		IL_002e: ldtoken [mscorlib]System.Boolean
+		IL_0033: call class [mscorlib]System.Type [mscorlib]System.Type::GetTypeFromHandle(valuetype [mscorlib]System.RuntimeTypeHandle)
+		IL_0038: ldtoken EasiCamera.DisplayToolBarItem
+		IL_003d: call class [mscorlib]System.Type [mscorlib]System.Type::GetTypeFromHandle(valuetype [mscorlib]System.RuntimeTypeHandle)
+		IL_0042: ldc.i4.1
+		IL_0043: box [mscorlib]System.Boolean
+		IL_0048: newobj instance void [WindowsBase]System.Windows.PropertyMetadata::.ctor(object)
+		IL_004d: call class [WindowsBase]System.Windows.DependencyProperty [WindowsBase]System.Windows.DependencyProperty::Register(string, class [mscorlib]System.Type, class [mscorlib]System.Type, class [WindowsBase]System.Windows.PropertyMetadata)
+		IL_0052: stsfld class [WindowsBase]System.Windows.DependencyProperty EasiCamera.DisplayToolBarItem::IsEnabledProperty
+		IL_0057: ldstr "Visibility"
+		IL_005c: ldtoken [PresentationCore]System.Windows.Visibility
+		IL_0061: call class [mscorlib]System.Type [mscorlib]System.Type::GetTypeFromHandle(valuetype [mscorlib]System.RuntimeTypeHandle)
+		IL_0066: ldtoken EasiCamera.DisplayToolBarItem
+		IL_006b: call class [mscorlib]System.Type [mscorlib]System.Type::GetTypeFromHandle(valuetype [mscorlib]System.RuntimeTypeHandle)
+		IL_0070: ldc.i4.0
+		IL_0071: box [PresentationCore]System.Windows.Visibility
+		IL_0076: newobj instance void [WindowsBase]System.Windows.PropertyMetadata::.ctor(object)
+		IL_007b: call class [WindowsBase]System.Windows.DependencyProperty [WindowsBase]System.Windows.DependencyProperty::Register(string, class [mscorlib]System.Type, class [mscorlib]System.Type, class [WindowsBase]System.Windows.PropertyMetadata)
+		IL_0080: stsfld class [WindowsBase]System.Windows.DependencyProperty EasiCamera.DisplayToolBarItem::VisibilityProperty
+		IL_0085: ret
+	} // end of method DisplayToolBarItem::.cctor
+
+	.method private hidebysig 
+		instance void '<.ctor>b__0_0' (
+			object s,
+			class [mscorlib]System.EventArgs e
+		) cil managed 
+	{
+		.custom instance void [mscorlib]System.Runtime.CompilerServices.CompilerGeneratedAttribute::.ctor() = (
+			01 00 00 00
+		)
+		// Method begins at RVA 0x9d38
+		// Header size: 12
+		// Code size: 128 (0x80)
+		.maxstack 7
+
+		IL_0000: ldarg.0
+		IL_0001: call instance string EasiCamera.DisplayToolBarItem::get_IconKey()
+		IL_0006: ldstr "Image."
+		IL_000b: ldc.i4.2
+		IL_000c: callvirt instance int32 [mscorlib]System.String::IndexOf(string, valuetype [mscorlib]System.StringComparison)
+		IL_0011: brtrue.s IL_007f
+
+		IL_0013: ldarg.0
+		IL_0014: call instance object EasiCamera.UiItem::get_Content()
+		IL_0019: brfalse.s IL_007f
+
+		IL_001b: ldarg.0
+		IL_001c: call instance bool EasiCamera.UiItem::get_IsCanClickDisabled()
+		IL_0021: brfalse.s IL_0059
+
+		IL_0023: ldarg.0
+		IL_0024: newobj instance void [PresentationFramework]System.Windows.Controls.Image::.ctor()
+		IL_0029: dup
+		IL_002a: call class [PresentationFramework]System.Windows.Application [PresentationFramework]System.Windows.Application::get_Current()
+		IL_002f: ldarg.0
+		IL_0030: call instance string EasiCamera.DisplayToolBarItem::get_IconKey()
+		IL_0035: ldstr "."
+		IL_003a: ldstr ".Un"
+		IL_003f: callvirt instance string [mscorlib]System.String::Replace(string, string)
+		IL_0044: callvirt instance object [PresentationFramework]System.Windows.Application::FindResource(object)
+		IL_0049: isinst [PresentationCore]System.Windows.Media.DrawingImage
+		IL_004e: callvirt instance void [PresentationFramework]System.Windows.Controls.Image::set_Source(class [PresentationCore]System.Windows.Media.ImageSource)
+		IL_0053: call instance void EasiCamera.UiItem::set_Content(object)
+		IL_0058: ret
+
+		IL_0059: ldarg.0
+		IL_005a: newobj instance void [PresentationFramework]System.Windows.Controls.Image::.ctor()
+		IL_005f: dup
+		IL_0060: call class [PresentationFramework]System.Windows.Application [PresentationFramework]System.Windows.Application::get_Current()
+		IL_0065: ldarg.0
+		IL_0066: call instance string EasiCamera.DisplayToolBarItem::get_IconKey()
+		IL_006b: callvirt instance object [PresentationFramework]System.Windows.Application::FindResource(object)
+		IL_0070: isinst [PresentationCore]System.Windows.Media.DrawingImage
+		IL_0075: callvirt instance void [PresentationFramework]System.Windows.Controls.Image::set_Source(class [PresentationCore]System.Windows.Media.ImageSource)
+		IL_007a: call instance void EasiCamera.UiItem::set_Content(object)
+
+		IL_007f: ret
+	} // end of method DisplayToolBarItem::'<.ctor>b__0_0'
+
+	// Properties
+	.property instance bool HasSeparationLine()
+	{
+		.get instance bool EasiCamera.DisplayToolBarItem::get_HasSeparationLine()
+		.set instance void EasiCamera.DisplayToolBarItem::set_HasSeparationLine(bool)
+	}
+	.property instance string IconKey()
+	{
+		.get instance string EasiCamera.DisplayToolBarItem::get_IconKey()
+		.set instance void EasiCamera.DisplayToolBarItem::set_IconKey(string)
+	}
+	.property instance bool IsEnabled()
+	{
+		.get instance bool EasiCamera.DisplayToolBarItem::get_IsEnabled()
+		.set instance void EasiCamera.DisplayToolBarItem::set_IsEnabled(bool)
+	}
+	.property instance valuetype [PresentationCore]System.Windows.Visibility Visibility()
+	{
+		.get instance valuetype [PresentationCore]System.Windows.Visibility EasiCamera.DisplayToolBarItem::get_Visibility()
+		.set instance void EasiCamera.DisplayToolBarItem::set_Visibility(valuetype [PresentationCore]System.Windows.Visibility)
+	}
+
+} // end of class EasiCamera.DisplayToolBarItem
+

@@ -1,0 +1,18 @@
+{
+  "ok": true,
+  "main_dir": "D:\\开发\\SeewoCamera\\work\\re4087\\main",
+  "result": {
+    "ok": true,
+    "message": "已应用 5 个功能；备份目录：D:\\开发\\SeewoCamera\\work\\re4087\\_InspirePatchBackup\\20261114-172408；请重启 EasiCamera 使补丁生效",
+    "applied": [
+      "remove_ocr",
+      "disable_ai_key",
+      "hide_login",
+      "force_scan",
+      "remove_english"
+    ],
+    "failed": [],
+    "backup_dir": "D:\\开发\\SeewoCamera\\work\\re4087\\_InspirePatchBackup\\20261114-172408",
+    "needs_restart_hint": true
+  }
+}

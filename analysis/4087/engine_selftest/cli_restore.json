@@ -1,0 +1,13 @@
+{
+  "ok": true,
+  "main_dir": "D:\\开发\\SeewoCamera\\work\\re4087\\main",
+  "backup_dir": "D:\\开发\\SeewoCamera\\work\\re4087\\_InspirePatchBackup\\20261114-172408",
+  "result": {
+    "ok": true,
+    "message": "已从备份恢复 2 个文件；请重启 EasiCamera 使恢复生效",
+    "applied": [],
+    "failed": [],
+    "backup_dir": "D:\\开发\\SeewoCamera\\work\\re4087\\_InspirePatchBackup\\20261114-172408",
+    "needs_restart_hint": true
+  }
+}

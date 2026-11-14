@@ -1,0 +1,286 @@
+EasiCamera.Business.dll：英文作文批改云 OCR 提供者（CorrectEnglishCompositionByImageRequest / ByTextRequest）。
+
+using System;
+using System.Diagnostics;
+using System.Net;
+using System.Runtime.CompilerServices;
+using System.Runtime.InteropServices;
+using System.Threading.Tasks;
+
+namespace EasiCamera.Business;
+
+public class EnglishCompositionProvider : IEnglishCompositionProvider
+{
+	[StructLayout(LayoutKind.Auto)]
+	[CompilerGenerated]
+	private struct _0001 : IAsyncStateMachine
+	{
+		public int _0001;
+
+		public AsyncTaskMethodBuilder<CorrectEnglishCompositionResponse> _0002;
+
+		public EnglishCompositionProvider _0003;
+
+		public string _0004;
+
+		private TaskAwaiter<CorrectEnglishCompositionResponse> _0005;
+
+		private void _0001()
+		{
+			int num = this._0001;
+			EnglishCompositionProvider englishCompositionProvider = _0003;
+			CorrectEnglishCompositionResponse result;
+			try
+			{
+				TaskAwaiter<CorrectEnglishCompositionResponse> awaiter;
+				if (num != 0)
+				{
+					awaiter = englishCompositionProvider.m__0001.PostAsync<CorrectEnglishCompositionResponse>(new CorrectEnglishCompositionByImageRequest
+					{
+						ImageBase64 = _0004,
+						HeaderCollection = englishCompositionProvider.m__0003,
+						TimeOut = 20000
+					}).GetAwaiter();
+					if (!awaiter.IsCompleted)
+					{
+						num = (this._0001 = 0);
+						_0005 = awaiter;
+						_0002.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+						return;
+					}
+				}
+				else
+				{
+					awaiter = _0005;
+					_0005 = default(TaskAwaiter<CorrectEnglishCompositionResponse>);
+					num = (this._0001 = -1);
+				}
+				result = awaiter.GetResult();
+			}
+			catch (Exception exception)
+			{
+				this._0001 = -2;
+				_0002.SetException(exception);
+				return;
+			}
+			this._0001 = -2;
+			_0002.SetResult(result);
+		}
+
+		void IAsyncStateMachine.MoveNext()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in 
+			this._0001();
+		}
+
+		[DebuggerHidden]
+		private void _0001(IAsyncStateMachine _0002)
+		{
+			this._0002.SetStateMachine(_0002);
+		}
+
+		void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine _0002)
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in 
+			this._0001(_0002);
+		}
+	}
+
+	[StructLayout(LayoutKind.Auto)]
+	[CompilerGenerated]
+	private struct _0002 : IAsyncStateMachine
+	{
+		public int _0001;
+
+		public AsyncTaskMethodBuilder<CorrectEnglishCompositionResponse> _0002;
+
+		public EnglishCompositionProvider _0003;
+
+		public string _0004;
+
+		private TaskAwaiter<CorrectEnglishCompositionResponse> _0005;
+
+		private void _0001()
+		{
+			int num = this._0001;
+			EnglishCompositionProvider englishCompositionProvider = _0003;
+			CorrectEnglishCompositionResponse result;
+			try
+			{
+				TaskAwaiter<CorrectEnglishCompositionResponse> awaiter;
+				if (num != 0)
+				{
+					awaiter = englishCompositionProvider.m__0001.PostAsync<CorrectEnglishCompositionResponse>(new CorrectEnglishCompositionByTextRequest
+					{
+						Article = _0004,
+						HeaderCollection = englishCompositionProvider.m__0003,
+						TimeOut = 20000
+					}).GetAwaiter();
+					if (!awaiter.IsCompleted)
+					{
+						num = (this._0001 = 0);
+						_0005 = awaiter;
+						_0002.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+						return;
+					}
+				}
+				else
+				{
+					awaiter = _0005;
+					_0005 = default(TaskAwaiter<CorrectEnglishCompositionResponse>);
+					num = (this._0001 = -1);
+				}
+				result = awaiter.GetResult();
+			}
+			catch (Exception exception)
+			{
+				this._0001 = -2;
+				_0002.SetException(exception);
+				return;
+			}
+			this._0001 = -2;
+			_0002.SetResult(result);
+		}
+
+		void IAsyncStateMachine.MoveNext()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in 
+			this._0001();
+		}
+
+		[DebuggerHidden]
+		private void _0001(IAsyncStateMachine _0002)
+		{
+			this._0002.SetStateMachine(_0002);
+		}
+
+		void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine _0002)
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in 
+			this._0001(_0002);
+		}
+	}
+
+	[StructLayout(LayoutKind.Auto)]
+	[CompilerGenerated]
+	private struct _0003 : IAsyncStateMachine
+	{
+		public int _0001;
+
+		public AsyncTaskMethodBuilder<GetOcrTextResponse> _0002;
+
+		public EnglishCompositionProvider _0003;
+
+		public string _0004;
+
+		private TaskAwaiter<GetOcrTextResponse> _0005;
+
+		private void _0001()
+		{
+			int num = this._0001;
+			EnglishCompositionProvider englishCompositionProvider = _0003;
+			GetOcrTextResponse result;
+			try
+			{
+				TaskAwaiter<GetOcrTextResponse> awaiter;
+				if (num != 0)
+				{
+					awaiter = englishCompositionProvider.m__0001.PostAsync<GetOcrTextResponse>(new GetOcrTextRequest
+					{
+						ImageBase64 = _0004,
+						HeaderCollection = englishCompositionProvider.m__0003,
+						TimeOut = 20000
+					}).GetAwaiter();
+					if (!awaiter.IsCompleted)
+					{
+						num = (this._0001 = 0);
+						_0005 = awaiter;
+						_0002.AwaitUnsafeOnCompleted(ref awaiter, ref this);
+						return;
+					}
+				}
+				else
+				{
+					awaiter = _0005;
+					_0005 = default(TaskAwaiter<GetOcrTextResponse>);
+					num = (this._0001 = -1);
+				}
+				result = awaiter.GetResult();
+			}
+			catch (Exception exception)
+			{
+				this._0001 = -2;
+				_0002.SetException(exception);
+				return;
+			}
+			this._0001 = -2;
+			_0002.SetResult(result);
+		}
+
+		void IAsyncStateMachine.MoveNext()
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in 
+			this._0001();
+		}
+
+		[DebuggerHidden]
+		private void _0001(IAsyncStateMachine _0002)
+		{
+			this._0002.SetStateMachine(_0002);
+		}
+
+		void IAsyncStateMachine.SetStateMachine(IAsyncStateMachine _0002)
+		{
+			//ILSpy generated this explicit interface implementation from .override directive in 
+			this._0001(_0002);
+		}
+	}
+
+	private readonly IEasiCameraWebService m__0001;
+
+	private const string m__0002 = "qvmQVlL8bBLzWy5N";
+
+	private WebHeaderCollection m__0003 = new WebHeaderCollection { "token:qvmQVlL8bBLzWy5N" };
+
+	public EnglishCompositionProvider()
+	{
+		this.m__0001 = new EasiCameraWebService();
+		this.m__0001.Host = "https://ai.cvte.com/composition";
+	}
+
+	[AsyncStateMachine(typeof(_0001))]
+	public Task<CorrectEnglishCompositionResponse> GetCorrectEnglishCompositionByImageResult(string imageBase64)
+	{
+		_0001 stateMachine = default(_0001);
+		stateMachine._0002 = AsyncTaskMethodBuilder<CorrectEnglishCompositionResponse>.Create();
+		stateMachine._0003 = this;
+		stateMachine._0004 = imageBase64;
+		stateMachine._0001 = -1;
+		stateMachine._0002.Start(ref stateMachine);
+		return stateMachine._0002.Task;
+	}
+
+	[AsyncStateMachine(typeof(_0002))]
+	public Task<CorrectEnglishCompositionResponse> GetCorrectEnglishCompositionByTextResult(string text)
+	{
+		_0002 stateMachine = default(_0002);
+		stateMachine._0002 = AsyncTaskMethodBuilder<CorrectEnglishCompositionResponse>.Create();
+		stateMachine._0003 = this;
+		stateMachine._0004 = text;
+		stateMachine._0001 = -1;
+		stateMachine._0002.Start(ref stateMachine);
+		return stateMachine._0002.Task;
+	}
+
+	[AsyncStateMachine(typeof(_0003))]
+	public Task<GetOcrTextResponse> GetOcrText(string imageBase64)
+	{
+		_0003 stateMachine = default(_0003);
+		stateMachine._0002 = AsyncTaskMethodBuilder<GetOcrTextResponse>.Create();
+		stateMachine._0003 = this;
+		stateMachine._0004 = imageBase64;
+		stateMachine._0001 = -1;
+		stateMachine._0002.Start(ref stateMachine);
+		return stateMachine._0002.Task;
+	}
+}

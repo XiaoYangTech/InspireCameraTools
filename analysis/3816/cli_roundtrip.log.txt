@@ -1,0 +1,156 @@
+# patch-core 补丁引擎 CLI 自测记录（2.0.10.3816 规则）
+# 工作目录: InspireCameraTools/（python -m core.cli ...）；测试目录: work/re3816/Main（原版 Main 的副本，非 extracted/ 原件）
+# 生成时间: 2026-11-14 17:26:30 +0800
+
+$ python -m core.cli validate --json
+{
+  "ok": true,
+  "rules": {
+    "2.1.0.4419": [],
+    "2.0.10.4229": [],
+    "2.0.10.4087": [],
+    "2.0.10.3816": []
+  },
+  "rule_load_errors": []
+}
+
+$ python -m core.cli detect --main ../extracted/v2.0.10.3816/EasiCamera_2.0.10.3816/Main --json
+{
+  "ok": true,
+  "main_dir": "D:\\开发\\SeewoCamera\\extracted\\v2.0.10.3816\\EasiCamera_2.0.10.3816\\Main",
+  "detected": {
+    "version": "2.0.10.3816",
+    "display_name": "V2.0.10.3816",
+    "matched_files": {
+      "EasiCamera.UI.dll": "f65b7a81a3f23a766de3c775c4885cc0dd4c42d562e073764e795ca9f9ae61ef",
+      "EasiCamera.Business.dll": "2b8aa20512a5d19c2aa87280196caa6c45062b6aea1babe90107a3bd64b6823d",
+      "EasiCamera.exe": "d482c73150ae5ad1995db46f0bd96b2ca346a45226d14ea81b4ade5ce1db34f8"
+    },
+    "files_count": 3,
+    "features": [
+      "force_scan",
+      "remove_english"
+    ]
+  },
+  "features": [
+    {
+      "feature": {
+
+$ python -m core.cli plan --main ../work/re3816/Main --features remove_english,force_scan --json
+{
+  "ok": true,
+  "main_dir": "D:\\开发\\SeewoCamera\\work\\re3816\\Main",
+  "detected": {
+    "version": "2.0.10.3816",
+    "display_name": "V2.0.10.3816",
+    "matched_files": {
+      "EasiCamera.UI.dll": "f65b7a81a3f23a766de3c775c4885cc0dd4c42d562e073764e795ca9f9ae61ef",
+      "EasiCamera.Business.dll": "2b8aa20512a5d19c2aa87280196caa6c45062b6aea1babe90107a3bd64b6823d",
+      "EasiCamera.exe": "d482c73150ae5ad1995db46f0bd96b2ca346a45226d14ea81b4ade5ce1db34f8"
+    },
+    "files_count": 3,
+    "features": [
+      "force_scan",
+      "remove_english"
+    ]
+  },
+  "items": [
+    {
+      "id": "remove_english",
+      "name": "去除英文批改",
+      "available": true,
+      "reason": null,
+      "already_patched": false,
+      "files": [
+        "EasiCamera.UI.dll"
+      ],
+      "ops": [
+        {
+          "file": "EasiCamera.UI.dll",
+          "offset": "0xF674",
+          "length": 1,
+          "note": "EasiCamera.UI.dll：CompositionCorrectionDisplayToolBarItem..ctor 的 IL_0018 `ldc.i4.1`→`ldc.i4.0`，FunctionModule 由 MainWindow 改为 None，工具栏「英文批改」按钮不再被收集/显示"
+        }
+      ]
+    },
+    {
+      "id": "force_scan",
+      "name": "去除第三方展台不能用扫描的限制",
+      "available": true,
+      "reason": null,
+      "already_patched": false,
+      "files": [
+        "EasiCamera.UI.dll"
+      ],
+      "ops": [
+        {
+          "file": "EasiCamera.UI.dll",
+          "offset": "0xF55E",
+          "length": 84,
+          "note": "EasiCamera.UI.dll：ImageEnhanceDisplayToolBarItem..ctor 中「自动扫描」按钮的 Visibility 绑定（84 字节，希沃机型白名单掩码 0x1A85C）整体 NOP，按钮默认 Visible，第三方展台可用扫描/文档增强"
+        }
+      ]
+    }
+  ]
+}
+
+$ python -m core.cli apply --main ../work/re3816/Main --features remove_english,force_scan --json
+{
+  "ok": true,
+  "main_dir": "D:\\开发\\SeewoCamera\\work\\re3816\\Main",
+  "result": {
+    "ok": true,
+    "message": "已应用 2 个功能；备份目录：D:\\开发\\SeewoCamera\\work\\re3816\\_InspirePatchBackup\\20261114-172631；请重启 EasiCamera 使补丁生效",
+    "applied": [
+      "remove_english",
+      "force_scan"
+    ],
+    "failed": [],
+    "backup_dir": "D:\\开发\\SeewoCamera\\work\\re3816\\_InspirePatchBackup\\20261114-172631",
+    "needs_restart_hint": true
+  }
+}
+
+$ sha256sum ../work/re3816/Main/EasiCamera.UI.dll
+84df05d7ddbd3eef2a2642349c5ad3b75d3ca89ad1fe1704c134e725368e6216 *../work/re3816/Main/EasiCamera.UI.dll
+
+$ python -m core.cli apply ... （重复 apply，验证幂等）
+{
+  "ok": true,
+  "main_dir": "D:\\开发\\SeewoCamera\\work\\re3816\\Main",
+  "result": {
+    "ok": true,
+    "message": "所选功能均已应用，无需重复补丁",
+    "applied": [
+      "remove_english",
+      "force_scan"
+    ],
+    "failed": [],
+    "backup_dir": null,
+    "needs_restart_hint": false
+  }
+}
+
+$ python -c "from core.patch_engine import is_patched; print(is_patched(../work/re3816/Main))"
+{'no_third_party_block': False, 'force_scan': True, 'hide_login': False, 'disable_freeze': False, 'enable_hygon_freeze': False, 'remove_english': True, 'remove_ocr': False, 'disable_ai_key': False}
+
+$ python -m core.cli restore --main ../work/re3816/Main --backup ../work/re3816/_InspirePatchBackup/20261114-172631/ --json
+{
+  "ok": true,
+  "main_dir": "D:\\开发\\SeewoCamera\\work\\re3816\\Main",
+  "backup_dir": "D:\\开发\\SeewoCamera\\work\\re3816\\_InspirePatchBackup\\20261114-172631",
+  "result": {
+    "ok": true,
+    "message": "已从备份恢复 1 个文件；请重启 EasiCamera 使恢复生效",
+    "applied": [],
+    "failed": [],
+    "backup_dir": "D:\\开发\\SeewoCamera\\work\\re3816\\_InspirePatchBackup\\20261114-172631",
+    "needs_restart_hint": true
+  }
+}
+
+$ sha256sum ../work/re3816/Main/EasiCamera.UI.dll
+f65b7a81a3f23a766de3c775c4885cc0dd4c42d562e073764e795ca9f9ae61ef *../work/re3816/Main/EasiCamera.UI.dll
+
+$ python -c "from core.patch_engine import is_patched; ..."（恢复后应全部 False）
+{'no_third_party_block': False, 'force_scan': False, 'hide_login': False, 'disable_freeze': False, 'enable_hygon_freeze': False, 'remove_english': False, 'remove_ocr': False, 'disable_ai_key': False}

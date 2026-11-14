@@ -1,0 +1,109 @@
+EasiCamera.Api.dll：基类构造函数（Key/Text/IconKey 推导）与 IsShowUiItem 判据。
+
+using System;
+using System.ComponentModel;
+using System.Text.RegularExpressions;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using Cvte.Windows.Localization;
+
+namespace EasiCamera;
+
+public abstract class DisplayToolBarItem : UiItem
+{
+	public static readonly DependencyProperty IconKeyProperty = DependencyProperty.Register("IconKey", typeof(string), typeof(DisplayToolBarItem), new PropertyMetadata((object)null));
+
+	public static readonly DependencyProperty IsEnabledProperty = DependencyProperty.Register("IsEnabled", typeof(bool), typeof(DisplayToolBarItem), new PropertyMetadata(true));
+
+	public static readonly DependencyProperty VisibilityProperty = DependencyProperty.Register("Visibility", typeof(Visibility), typeof(DisplayToolBarItem), new PropertyMetadata(Visibility.Visible));
+
+	public bool HasSeparationLine { get; protected set; }
+
+	public string IconKey
+	{
+		get
+		{
+			return (string)GetValue(IconKeyProperty);
+		}
+		set
+		{
+			SetValue(IconKeyProperty, value);
+		}
+	}
+
+	public bool IsEnabled
+	{
+		get
+		{
+			return (bool)GetValue(IsEnabledProperty);
+		}
+		set
+		{
+			SetValue(IsEnabledProperty, value);
+		}
+	}
+
+	public Visibility Visibility
+	{
+		get
+		{
+			return (Visibility)GetValue(VisibilityProperty);
+		}
+		set
+		{
+			SetValue(VisibilityProperty, value);
+		}
+	}
+
+	protected DisplayToolBarItem(bool hasSeparationLine = false, ItemType itemType = ItemType.UniversalItem)
+	{
+		HasSeparationLine = hasSeparationLine;
+		base.ItemType = itemType;
+		if (string.IsNullOrEmpty(base.Key))
+		{
+			if (Regex.IsMatch(GetType().Name, "DisplayToolBarItem"))
+			{
+				base.Key = GetType().Name.Replace("DisplayToolBarItem", string.Empty);
+			}
+			else if (Regex.IsMatch(GetType().Name, "DisplayModeToolBarItem"))
+			{
+				base.Key = GetType().Name.Replace("DisplayModeToolBarItem", string.Empty);
+			}
+		}
+		if (DesignerProperties.GetIsInDesignMode(this))
+		{
+			SetValue(UiItem.TextProperty, base.Key);
+		}
+		else
+		{
+			SetValue(UiItem.TextProperty, Lang.TryGet("Lang.DisplayToolBar." + base.Key, out var value) ? value : base.Key);
+		}
+		IconKey = "Geometry." + base.Key;
+		DependencyPropertyDescriptor.FromProperty(UiItem.IsCanClickDisabledProperty, typeof(RichTextBox)).AddValueChanged(this, delegate
+		{
+			if (IconKey.IndexOf("Image.", StringComparison.InvariantCulture) == 0 && base.Content != null)
+			{
+				if (base.IsCanClickDisabled)
+				{
+					base.Content = new Image
+					{
+						Source = (Application.Current.FindResource(IconKey.Replace(".", ".Un")) as DrawingImage)
+					};
+				}
+				else
+				{
+					base.Content = new Image
+					{
+						Source = (Application.Current.FindResource(IconKey) as DrawingImage)
+					};
+				}
+			}
+		});
+	}
+
+	public override bool IsShowUiItem(FunctionModule functionModule)
+	{
+		return (base.FunctionModule & functionModule) != 0;
+	}
+}

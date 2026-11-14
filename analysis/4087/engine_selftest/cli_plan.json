@@ -1,0 +1,146 @@
+{
+  "ok": true,
+  "main_dir": "D:\\开发\\SeewoCamera\\work\\re4087\\main",
+  "detected": {
+    "version": "2.0.10.4087",
+    "display_name": "V2.0.10.4087",
+    "matched_files": {
+      "EasiCamera.UI.dll": "fcaa674bcc7567df87497d24305ae5e4207d3458ae68d29dd915d01d4a7c2443",
+      "EasiCamera.Business.dll": "5345738297bb2e4a6cf7e1126ac8052641d331dbc39304cf40fadd2d54003fcd",
+      "EasiCamera.exe": "50ee51a7ee2527a31f82ed0aa0a3e407eed3107be09dc1f4fc5d898a4b453f36"
+    },
+    "files_count": 3,
+    "features": [
+      "disable_ai_key",
+      "force_scan",
+      "hide_login",
+      "remove_english",
+      "remove_ocr"
+    ]
+  },
+  "items": [
+    {
+      "id": "remove_ocr",
+      "name": "去除OCR（智能识别）",
+      "available": true,
+      "reason": null,
+      "already_patched": false,
+      "files": [
+        "EasiCamera.UI.dll"
+      ],
+      "ops": [
+        {
+          "file": "EasiCamera.UI.dll",
+          "offset": "0x10CC9",
+          "length": 31,
+          "note": "EasiCamera.UI.dll：AIMenuDisplayToolBarItem 构造函数里把 FunctionModule 从 MainWindow(1) 改成 None(0)，该「OCR」工具栏项不再进入任何功能模块的工具栏列表（按钮及其弹窗入口整体移除）"
+        }
+      ]
+    },
+    {
+      "id": "disable_ai_key",
+      "name": "禁用展台AI按键",
+      "available": true,
+      "reason": null,
+      "already_patched": false,
+      "files": [
+        "EasiCamera.Business.dll"
+      ],
+      "ops": [
+        {
+          "file": "EasiCamera.Business.dll",
+          "offset": "0x12B5",
+          "length": 5,
+          "note": "EasiCamera.Business.dll：CommonHidComponent.DataProcess 收到相机 AI 键（HID cmd 13）时 call get_OpenAIMenu 改为 ldnull，后续 brtrue 判空直接返回，不再触发 OCR 菜单"
+        }
+      ]
+    },
+    {
+      "id": "hide_login",
+      "name": "去除登录按钮",
+      "available": true,
+      "reason": null,
+      "already_patched": false,
+      "files": [
+        "EasiCamera.UI.dll"
+      ],
+      "ops": [
+        {
+          "file": "EasiCamera.UI.dll",
+          "offset": "0x1E773",
+          "length": 16,
+          "note": "EasiCamera.UI.dll：DisplayToolbar..ctor 末尾把 ProfileButton.DataContext=EC.Account 改为 ProfileButton.Visibility=Collapsed（初始隐藏右上角登录按钮）"
+        },
+        {
+          "file": "EasiCamera.UI.dll",
+          "offset": "0x1E8BC",
+          "length": 4,
+          "note": "EasiCamera.UI.dll：DisplayToolbar.BoardApiOnFunctionModuleChanged 里「是否显示登录按钮」的 flag 恒为 false，切换功能模块时登录按钮也保持 Collapsed"
+        }
+      ]
+    },
+    {
+      "id": "force_scan",
+      "name": "去除第三方展台不能用扫描的限制",
+      "available": true,
+      "reason": null,
+      "already_patched": false,
+      "files": [
+        "EasiCamera.UI.dll"
+      ],
+      "ops": [
+        {
+          "file": "EasiCamera.UI.dll",
+          "offset": "0x10BD6",
+          "length": 84,
+          "note": "EasiCamera.UI.dll：ImageEnhanceDisplayToolBarItem..ctor 里把「扫描/文档增强」按钮的 SeewoCameraButtonVisibilityConverter 绑定替换为 Visibility=Visible 常量（第三方展台也显示扫描按钮）"
+        }
+      ]
+    },
+    {
+      "id": "remove_english",
+      "name": "去除英文批改",
+      "available": true,
+      "reason": null,
+      "already_patched": false,
+      "files": [
+        "EasiCamera.UI.dll"
+      ],
+      "ops": [
+        {
+          "file": "EasiCamera.UI.dll",
+          "offset": "0x1556A",
+          "length": 24,
+          "note": "EasiCamera.UI.dll：AIMenu.Connect 里把 OCR 菜单的「英文批改」按钮 Visibility 设为 Collapsed（不显示 CompositionCorrectionButton；口算批改/OCR 菜单其它入口不受影响）"
+        }
+      ]
+    },
+    {
+      "id": "no_third_party_block",
+      "name": "去除新版本不允许使用第三方展台的限制",
+      "available": false,
+      "reason": "2.0.10.4087 没有云端「第三方展台屏蔽」开关（CancelShieldThirdParty 自 2.1.0 起引入），本版本设备列表不按该开关过滤，无需补丁",
+      "already_patched": false,
+      "files": [],
+      "ops": []
+    },
+    {
+      "id": "disable_freeze",
+      "name": "去除兆芯/海光锁画面限制",
+      "available": false,
+      "reason": "2.0.10.4087 没有国产化芯片自动冻结逻辑（HomeMaidChipHandler / IsHomeMaidChip 自 2.0.10.4229 起才有），无自动冻结可去除",
+      "already_patched": false,
+      "files": [],
+      "ops": []
+    },
+    {
+      "id": "enable_hygon_freeze",
+      "name": "为海光处理器加入锁画面功能（修复批注卡顿）",
+      "available": false,
+      "reason": "2.0.10.4087 的 EasiCamera.Util.HardwareRecognizer 无国产化芯片识别（无 ZhaoXin/HaiGuang 判定），无法启用自动冻结；需 2.0.10.4229 及以上",
+      "already_patched": false,
+      "files": [],
+      "ops": []
+    }
+  ]
+}

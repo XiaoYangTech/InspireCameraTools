@@ -1,0 +1,10 @@
+# 亿方展台管家（InspireCameraTools）依赖清单
+# 运行环境：Windows 10/11 + Python 3.10+（本项目在 Python 3.14 32 位下开发验证）
+# 安装：D:/Software/python314/python.exe -m pip install -r requirements.txt
+
+ttkbootstrap==1.20.2   # 界面主题框架（bootstrap-light 主题，若发行版未内置则程序动态注册）
+requests==2.33.0       # 历史版本 API / 文件下载
+pillow==12.2.0         # 图标资源加载 / 缩放
+
+# 打包工具（可选，仅执行 build/build.py 时需要）：
+# pyinstaller>=6.0

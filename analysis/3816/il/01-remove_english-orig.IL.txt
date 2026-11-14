@@ -1,0 +1,110 @@
+来源: `.tools/ilspycmd -il` 反编译原版 Main/EasiCamera.UI.dll。
+目标: EasiCamera.UI.CompositionCorrectionDisplayToolBarItem —— 工具栏「英文批改」按钮（本地化 key Lang.DisplayToolBar.CompositionCorrection = 英文批改，见 05 号文件与 Localization 证据）。
+
+.class public auto ansi beforefieldinit EasiCamera.UI.CompositionCorrectionDisplayToolBarItem
+	extends [EasiCamera.Api]EasiCamera.DisplayToolBarItem
+{
+	// Nested Types
+	.class nested private auto ansi sealed serializable beforefieldinit '<>c'
+		extends [mscorlib]System.Object
+	{
+		.custom instance void [mscorlib]System.Runtime.CompilerServices.CompilerGeneratedAttribute::.ctor() = (
+			01 00 00 00
+		)
+		// Fields
+		.field public static initonly class EasiCamera.UI.CompositionCorrectionDisplayToolBarItem/'<>c' '<>9'
+		.field public static class [mscorlib]System.Action '<>9__0_0'
+
+		// Methods
+		.method private hidebysig specialname rtspecialname static 
+			void .cctor () cil managed 
+		{
+			// Method begins at RVA 0x114a8
+			// Header size: 1
+			// Code size: 11 (0xb)
+			.maxstack 8
+
+			IL_0000: newobj instance void EasiCamera.UI.CompositionCorrectionDisplayToolBarItem/'<>c'::.ctor()
+			IL_0005: stsfld class EasiCamera.UI.CompositionCorrectionDisplayToolBarItem/'<>c' EasiCamera.UI.CompositionCorrectionDisplayToolBarItem/'<>c'::'<>9'
+			IL_000a: ret
+		} // end of method '<>c'::.cctor
+
+		.method public hidebysig specialname rtspecialname 
+			instance void .ctor () cil managed 
+		{
+			// Method begins at RVA 0x114b4
+			// Header size: 1
+			// Code size: 7 (0x7)
+			.maxstack 8
+
+			IL_0000: ldarg.0
+			IL_0001: call instance void [mscorlib]System.Object::.ctor()
+			IL_0006: ret
+		} // end of method '<>c'::.ctor
+
+		.method assembly hidebysig 
+			instance void '\u0001' () cil managed 
+		{
+			// Method begins at RVA 0x114bc
+			// Header size: 12
+			// Code size: 44 (0x2c)
+			.maxstack 2
+			.locals init (
+				[0] class EasiCamera.UI.ScanCompositionControl
+			)
+
+			IL_0000: call class [EasiCamera.Api]EasiCamera.IUiService [EasiCamera.Api]EasiCamera.EC::get_UiService()
+			IL_0005: callvirt instance class [PresentationFramework]System.Windows.Controls.Grid [EasiCamera.Api]EasiCamera.IUiService::get_TheMainGrid()
+			IL_000a: newobj instance void EasiCamera.UI.ScanCompositionControl::.ctor()
+			IL_000f: stloc.0
+			IL_0010: callvirt instance class [PresentationFramework]System.Windows.Controls.UIElementCollection [PresentationFramework]System.Windows.Controls.Panel::get_Children()
+			IL_0015: ldloc.0
+			IL_0016: callvirt instance int32 [PresentationFramework]System.Windows.Controls.UIElementCollection::Add(class [PresentationCore]System.Windows.UIElement)
+			IL_001b: pop
+			IL_001c: call class [EasiCamera.Api]EasiCamera.IUiService [EasiCamera.Api]EasiCamera.EC::get_UiService()
+			IL_0021: callvirt instance class [EasiCamera.Api]EasiCamera.ISideBarManageService [EasiCamera.Api]EasiCamera.IUiService::get_SideBarManager()
+			IL_0026: callvirt instance void [EasiCamera.Api]EasiCamera.ISideBarManageService::HideSideBar()
+			IL_002b: ret
+		} // end of method '<>c'::'\u0001'
+
+	} // end of class <>c
+
+
+	// Methods
+	.method public hidebysig specialname rtspecialname 
+		instance void .ctor () cil managed 
+	{
+		// Method begins at RVA 0x11450
+		// Header size: 12
+		// Code size: 73 (0x49)
+		.maxstack 3
+
+		IL_0000: ldarg.0
+		IL_0001: ldc.i4.0
+		IL_0002: ldc.i4.0
+		IL_0003: call instance void [EasiCamera.Api]EasiCamera.DisplayToolBarItem::.ctor(bool, valuetype [EasiCamera.Api]EasiCamera.ItemType)
+		IL_0008: ldarg.0
+		IL_0009: ldc.r8 102
+		IL_0012: call instance void [EasiCamera.Api]EasiCamera.UiItem::set_SortHint(float64)
+		IL_0017: ldarg.0
+		IL_0018: ldc.i4.1
+		IL_0019: call instance void [EasiCamera.Api]EasiCamera.UiItem::set_FunctionModule(valuetype [EasiCamera.Api]EasiCamera.FunctionModule)
+		IL_001e: ldarg.0
+		IL_001f: ldsfld class [mscorlib]System.Action EasiCamera.UI.CompositionCorrectionDisplayToolBarItem/'<>c'::'<>9__0_0'
+		IL_0024: dup
+		IL_0025: brtrue.s IL_003e
+
+		IL_0027: pop
+		IL_0028: ldsfld class EasiCamera.UI.CompositionCorrectionDisplayToolBarItem/'<>c' EasiCamera.UI.CompositionCorrectionDisplayToolBarItem/'<>c'::'<>9'
+		IL_002d: ldftn instance void EasiCamera.UI.CompositionCorrectionDisplayToolBarItem/'<>c'::'\u0001'()
+		IL_0033: newobj instance void [mscorlib]System.Action::.ctor(object, native int)
+		IL_0038: dup
+		IL_0039: stsfld class [mscorlib]System.Action EasiCamera.UI.CompositionCorrectionDisplayToolBarItem/'<>c'::'<>9__0_0'
+
+		IL_003e: newobj instance void [Cvte.Windows.cc]Cvte.Windows.Input.DelegateCommand::.ctor(class [mscorlib]System.Action)
+		IL_0043: call instance void [EasiCamera.Api]EasiCamera.UiItem::set_Command(class [System]System.Windows.Input.ICommand)
+		IL_0048: ret
+	} // end of method CompositionCorrectionDisplayToolBarItem::.ctor
+
+} // end of class EasiCamera.UI.CompositionCorrectionDisplayToolBarItem
+

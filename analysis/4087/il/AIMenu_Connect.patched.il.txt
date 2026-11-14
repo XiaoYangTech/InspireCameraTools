@@ -1,0 +1,78 @@
+// ============================================================================
+// EasiCamera 2.0.10.4087 IL 证据：AIMenu::System.Windows.Markup.IComponentConnector.Connect
+// 来源: work/re4087/il\patched_UI.il.txt（ILSpy 9.1.0.7988 `-il` 输出，GBK 已转 UTF-8）
+// 说明: 仅为方法级摘录，完整 IL 见工作副本 work/re4087/il\patched_UI.il.txt（较大，未入库）
+// ============================================================================
+
+	.method private final hidebysig newslot virtual 
+		instance void System.Windows.Markup.IComponentConnector.Connect (
+			int32 connectionId,
+			object target
+		) cil managed 
+	{
+		.custom instance void [mscorlib]System.Diagnostics.DebuggerNonUserCodeAttribute::.ctor() = (
+			01 00 00 00
+		)
+		.custom instance void [System]System.CodeDom.Compiler.GeneratedCodeAttribute::.ctor(string, string) = (
+			01 00 16 50 72 65 73 65 6e 74 61 74 69 6f 6e 42
+			75 69 6c 64 54 61 73 6b 73 08 37 2e 30 2e 31 37
+			2e 30 00 00
+		)
+		.custom instance void [System]System.ComponentModel.EditorBrowsableAttribute::.ctor(valuetype [System]System.ComponentModel.EditorBrowsableState) = (
+			01 00 01 00 00 00 00 00
+		)
+		.override method instance void [System.Xaml]System.Windows.Markup.IComponentConnector::Connect(int32, object)
+		// Method begins at RVA 0x17324
+		// Header size: 12
+		// Code size: 90 (0x5a)
+		.maxstack 3
+
+		IL_0000: ldarg.1
+		IL_0001: ldc.i4.1
+		IL_0002: beq.s IL_000a
+
+		IL_0004: ldarg.1
+		IL_0005: ldc.i4.2
+		IL_0006: beq.s IL_002e
+
+		IL_0008: br.s IL_0052
+
+		IL_000a: ldarg.0
+		IL_000b: ldarg.2
+		IL_000c: castclass [Cvte.GurnetUI]Cvte.GurnetUI.Controls.IconButton
+		IL_0011: stfld class [Cvte.GurnetUI]Cvte.GurnetUI.Controls.IconButton EasiCamera.UI.AIMenu::OcrCorrectionButton
+		IL_0016: ldarg.0
+		IL_0017: ldfld class [Cvte.GurnetUI]Cvte.GurnetUI.Controls.IconButton EasiCamera.UI.AIMenu::OcrCorrectionButton
+		IL_001c: ldarg.0
+		IL_001d: ldftn instance void EasiCamera.UI.AIMenu::OcrCorrectionButton_OnClick(object, class [PresentationCore]System.Windows.RoutedEventArgs)
+		IL_0023: newobj instance void [PresentationCore]System.Windows.RoutedEventHandler::.ctor(object, native int)
+		IL_0028: callvirt instance void [PresentationFramework]System.Windows.Controls.Primitives.ButtonBase::add_Click(class [PresentationCore]System.Windows.RoutedEventHandler)
+		IL_002d: ret
+
+		IL_002e: ldarg.0
+		IL_002f: ldarg.2
+		IL_0030: castclass [Cvte.GurnetUI]Cvte.GurnetUI.Controls.IconButton
+		IL_0035: stfld class [Cvte.GurnetUI]Cvte.GurnetUI.Controls.IconButton EasiCamera.UI.AIMenu::CompositionCorrectionButton
+		IL_003a: ldarg.0
+		IL_003b: ldfld class [Cvte.GurnetUI]Cvte.GurnetUI.Controls.IconButton EasiCamera.UI.AIMenu::CompositionCorrectionButton
+		IL_0040: ldc.i4.2
+		IL_0041: callvirt instance void [PresentationCore]System.Windows.UIElement::set_Visibility(valuetype [PresentationCore]System.Windows.Visibility)
+		IL_0046: ret
+
+		IL_0047: nop
+		IL_0048: nop
+		IL_0049: nop
+		IL_004a: nop
+		IL_004b: nop
+		IL_004c: nop
+		IL_004d: nop
+		IL_004e: nop
+		IL_004f: nop
+		IL_0050: nop
+		IL_0051: nop
+
+		IL_0052: ldarg.0
+		IL_0053: ldc.i4.1
+		IL_0054: stfld bool EasiCamera.UI.AIMenu::_contentLoaded
+		IL_0059: ret
+	} // end of method AIMenu::System.Windows.Markup.IComponentConnector.Connect

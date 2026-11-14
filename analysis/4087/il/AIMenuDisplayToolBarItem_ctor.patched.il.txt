@@ -1,0 +1,26 @@
+// ============================================================================
+// EasiCamera 2.0.10.4087 IL 证据：AIMenuDisplayToolBarItem::.ctor
+// 来源: work/re4087/il\patched_UI.il.txt（ILSpy 9.1.0.7988 `-il` 输出，GBK 已转 UTF-8）
+// 说明: 仅为方法级摘录，完整 IL 见工作副本 work/re4087/il\patched_UI.il.txt（较大，未入库）
+// ============================================================================
+
+	.method public hidebysig specialname rtspecialname 
+		instance void .ctor () cil managed 
+	{
+		// Method begins at RVA 0x12ac8
+		// Header size: 1
+		// Code size: 31 (0x1f)
+		.maxstack 8
+
+		IL_0000: ldarg.0
+		IL_0001: ldc.i4.0
+		IL_0002: ldc.i4.0
+		IL_0003: call instance void [EasiCamera.Api]EasiCamera.DisplayToolBarItem::.ctor(bool, valuetype [EasiCamera.Api]EasiCamera.ItemType)
+		IL_0008: ldarg.0
+		IL_0009: ldc.r8 102
+		IL_0012: call instance void [EasiCamera.Api]EasiCamera.UiItem::set_SortHint(float64)
+		IL_0017: ldarg.0
+		IL_0018: ldc.i4.0
+		IL_0019: call instance void [EasiCamera.Api]EasiCamera.UiItem::set_FunctionModule(valuetype [EasiCamera.Api]EasiCamera.FunctionModule)
+		IL_001e: ret
+	} // end of method AIMenuDisplayToolBarItem::.ctor

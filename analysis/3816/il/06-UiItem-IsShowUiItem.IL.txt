@@ -1,0 +1,15 @@
+来源: EasiCamera.Api.dll。工具栏条目收集的最终过滤判据（remove_english 把 FunctionModule 置 None 后恒为 false）。
+
+	.method public hidebysig newslot virtual 
+		instance bool IsShowUiItem (
+			valuetype EasiCamera.FunctionModule functionModule
+		) cil managed 
+	{
+		// Method begins at RVA 0xa124
+		// Header size: 1
+		// Code size: 2 (0x2)
+		.maxstack 8
+
+		IL_0000: ldc.i4.0
+		IL_0001: ret
+	} // end of method UiItem::IsShowUiItem

@@ -1,0 +1,64 @@
+==============================================================================
+EasiCamera 2.0.10.3816 规则自动校验
+  仓库根目录 : D:\开发\SeewoCamera
+  规则文件   : D:\开发\SeewoCamera\InspireCameraTools\core\rules\v2_0_10_3816.py
+  原版 Main  : D:\开发\SeewoCamera\extracted\v2.0.10.3816\EasiCamera_2.0.10.3816\Main
+==============================================================================
+
+[1/6] 规则结构与版本
+  [PASS] RULES.version == 2.0.10.3816（实际 '2.0.10.3816'）
+  [PASS] RULES.files 至少 2 个指纹文件（实际 3）
+  [PASS] 补丁引擎 validate_rule 通过
+  [PASS] 同文件 op 无重叠
+
+[2/6] 原版文件 SHA-256 指纹（RULES.files）
+  [PASS] EasiCamera.UI.dll 原版哈希匹配（f65b7a81a3f23a76…）
+  [PASS] EasiCamera.Business.dll 原版哈希匹配（2b8aa20512a5d19c…）
+  [PASS] EasiCamera.exe 原版哈希匹配（d482c73150ae5ad1…）
+
+[3/6] 应用 RULES 并断言补丁后 SHA-256
+  [PASS] 组合 remove_english                   在 EasiCamera.UI.dll 上有 op（1 条）
+  [PASS] 组合 remove_english                   文件大小不变（749568）
+  [PASS] 组合 remove_english                   补丁后 sha256=6adf10e8a545adae68a64dc13e0cd10645f4f079a7784238390054ce50268847
+  [PASS] 组合 remove_english                   差异只出现在 op 覆盖区间（1 处）
+  [PASS] 组合 force_scan                       在 EasiCamera.UI.dll 上有 op（1 条）
+  [PASS] 组合 force_scan                       文件大小不变（749568）
+  [PASS] 组合 force_scan                       补丁后 sha256=2678df7291053b8555b1e894b1968c7a45b16b468544f69c869c060259ec1508
+  [PASS] 组合 force_scan                       差异只出现在 op 覆盖区间（16 处）
+  [PASS] 组合 remove_english+force_scan        在 EasiCamera.UI.dll 上有 op（2 条）
+  [PASS] 组合 remove_english+force_scan        文件大小不变（749568）
+  [PASS] 组合 remove_english+force_scan        补丁后 sha256=84df05d7ddbd3eef2a2642349c5ad3b75d3ca89ad1fe1704c134e725368e6216
+  [PASS] 组合 remove_english+force_scan        差异只出现在 op 覆盖区间（17 处）
+
+[4/6] 幂等性（已是补丁状态时再次应用不应变化）
+  [PASS] 再次应用全部 op 后字节不变
+  [PASS] 功能 remove_english       单应用幂等
+  [PASS] 功能 force_scan           单应用幂等
+
+[5/6] 输出补丁后文件与哈希表
+  EasiCamera.UI.remove_english.dll                     6adf10e8a545adae68a64dc13e0cd10645f4f079a7784238390054ce50268847
+  [PASS] 回读 EasiCamera.UI.remove_english.dll 哈希一致
+  EasiCamera.UI.force_scan.dll                         2678df7291053b8555b1e894b1968c7a45b16b468544f69c869c060259ec1508
+  [PASS] 回读 EasiCamera.UI.force_scan.dll 哈希一致
+  EasiCamera.UI.remove_english_force_scan.dll          84df05d7ddbd3eef2a2642349c5ad3b75d3ca89ad1fe1704c134e725368e6216
+  [PASS] 回读 EasiCamera.UI.remove_english_force_scan.dll 哈希一致
+
+  原版 / 补丁后 SHA-256 汇总：
+  文件                     SHA-256                                                          大小
+  EasiCamera.Business.dll(原版) 2b8aa20512a5d19c2aa87280196caa6c45062b6aea1babe90107a3bd64b6823d 1778688
+  EasiCamera.UI.dll(原版)  f65b7a81a3f23a766de3c775c4885cc0dd4c42d562e073764e795ca9f9ae61ef 749568
+  EasiCamera.exe(原版)     d482c73150ae5ad1995db46f0bd96b2ca346a45226d14ea81b4ade5ce1db34f8 1448064
+
+[6/6] ILSpy 反编译补丁后程序集（结构合法性）
+  临时 Main 目录: D:\开发\SeewoCamera\work\re3816\ilspy_main（硬链接 137 个文件，复制 0 个）
+  反编译输出目录: D:\开发\SeewoCamera\work\re3816\verify_out\ilspy_patched_src
+  [ILSpy] CompositionCorrectionDisplayToolBarItem: FunctionModule = FunctionModule.None
+  [ILSpy] ImageEnhanceDisplayToolBarItem: Visibility 绑定已移除=True
+  [PASS] ILSpy 完整反编译补丁后 EasiCamera.UI.dll 成功
+  [PASS] 原版文件 EasiCamera.UI.dll 在 ILSpy 步骤后未被修改
+  [PASS] 原版文件 EasiCamera.Business.dll 在 ILSpy 步骤后未被修改
+  [PASS] 原版文件 EasiCamera.exe 在 ILSpy 步骤后未被修改
+
+==============================================================================
+全部校验通过 ✓  原版→应用 RULES→字节/哈希断言 均符合预期（未在真机验证）
+==============================================================================

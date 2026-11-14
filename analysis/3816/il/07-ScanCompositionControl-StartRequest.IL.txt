@@ -1,0 +1,155 @@
+来源: EasiCamera.UI.dll。点击「英文批改」按钮 → new ScanCompositionControl() → StartRequest()，其中调用 IEnglishCompositionProvider.GetOcrText / GetCorrectEnglishCompositionByTextResult：整条链路是「英语作文批改」，没有口算批改/英文圈词/其他学科分支。
+
+		.method private final hidebysig newslot virtual 
+			instance void MoveNext () cil managed 
+		{
+			.override method instance void [mscorlib]System.Runtime.CompilerServices.IAsyncStateMachine::MoveNext()
+			// Method begins at RVA 0xd8b0
+			// Header size: 12
+			// Code size: 351 (0x15f)
+			.maxstack 3
+			.locals init (
+				[0] int32,
+				[1] class EasiCamera.UI.ScanCompositionControl,
+				[2] bool,
+				[3] class [mscorlib]System.Collections.Generic.IEnumerable`1<class [Cvte.Paint.Shell]Cvte.Paint.Features.Elements.Images.Picture>,
+				[4] valuetype [mscorlib]System.Runtime.CompilerServices.TaskAwaiter`1<bool>,
+				[5] class [mscorlib]System.Exception
+			)
+
+			IL_0000: ldarg.0
+			IL_0001: ldfld int32 EasiCamera.UI.ScanCompositionControl/'<BeginScan>d__27'::'<>1__state'
+			IL_0006: stloc.0
+			IL_0007: ldarg.0
+			IL_0008: ldfld class EasiCamera.UI.ScanCompositionControl EasiCamera.UI.ScanCompositionControl/'<BeginScan>d__27'::'<>4__this'
+			IL_000d: stloc.1
+			.try
+			{
+				IL_000e: ldloc.0
+				IL_000f: brfalse IL_00e7
+
+				IL_0014: ldloc.1
+				IL_0015: call class [EasiCamera.Api]EasiCamera.IDeviceService [EasiCamera.Api]EasiCamera.EC::get_CameraApi()
+				IL_001a: callvirt instance class [EasiCamera.Api]EasiCamera.PictureFrameParameters [EasiCamera.Api]EasiCamera.ICameraService::get_PictureFrameParatmeters()
+				IL_001f: callvirt instance bool [EasiCamera.Api]EasiCamera.PictureFrameParameters::get_AutoFocus()
+				IL_0024: stfld bool EasiCamera.UI.ScanCompositionControl::_autoFocus
+				IL_0029: call class [EasiCamera.Api]EasiCamera.IDeviceService [EasiCamera.Api]EasiCamera.EC::get_CameraApi()
+				IL_002e: callvirt instance class [EasiCamera.Api]EasiCamera.PictureFrameParameters [EasiCamera.Api]EasiCamera.ICameraService::get_PictureFrameParatmeters()
+				IL_0033: ldc.i4.0
+				IL_0034: callvirt instance void [EasiCamera.Api]EasiCamera.PictureFrameParameters::set_AutoFocus(bool)
+				IL_0039: ldloc.1
+				IL_003a: call instance void EasiCamera.UI.ScanCompositionControl::EnterPrepareSearchComposition()
+				IL_003f: ldloc.1
+				IL_0040: newobj instance void [mscorlib]System.Threading.CancellationTokenSource::.ctor()
+				IL_0045: stfld class [mscorlib]System.Threading.CancellationTokenSource EasiCamera.UI.ScanCompositionControl::_cancellationTokenSource
+				IL_004a: call class [EasiCamera.Api]EasiCamera.IEasiCameraBoardService [EasiCamera.Api]EasiCamera.EC::get_BoardApi()
+				IL_004f: callvirt instance int32 [Cvte.Paint.Framework]Cvte.Paint.Framework.IBoardService::get_CurrentSlideIndex()
+				IL_0054: brfalse.s IL_00ab
+
+				IL_0056: call class [EasiCamera.Api]EasiCamera.IDeviceService [EasiCamera.Api]EasiCamera.EC::get_CameraApi()
+				IL_005b: callvirt instance class [EasiCamera.Api]EasiCamera.IGlobalDeviceViewModel [EasiCamera.Api]EasiCamera.IDeviceService::get_DeviceViewModel()
+				IL_0060: callvirt instance bool [EasiCamera.Api]EasiCamera.IGlobalDeviceViewModel::get_IsCurrentWirelessCamera()
+				IL_0065: brtrue.s IL_00ab
+
+				IL_0067: call class [EasiCamera.Api]EasiCamera.IEasiCameraBoardService [EasiCamera.Api]EasiCamera.EC::get_BoardApi()
+				IL_006c: callvirt instance class [Cvte.Paint.Framework]Cvte.Paint.Framework.Slide [Cvte.Paint.Framework]Cvte.Paint.Framework.IBoardService::get_CurrentSlide()
+				IL_0071: callvirt instance class [mscorlib]System.Collections.ObjectModel.ReadOnlyCollection`1<class [Cvte.Paint.Framework]Cvte.Paint.Framework.Element> [Cvte.Paint.Framework]Cvte.Paint.Framework.Slide::get_Elements()
+				IL_0076: call class [mscorlib]System.Collections.Generic.IEnumerable`1<!!0> [System.Core]System.Linq.Enumerable::OfType<class [Cvte.Paint.Shell]Cvte.Paint.Features.Elements.Images.Picture>(class [mscorlib]System.Collections.IEnumerable)
+				IL_007b: stloc.3
+				IL_007c: ldloc.3
+				IL_007d: call bool [System.Core]System.Linq.Enumerable::Any<class [Cvte.Paint.Shell]Cvte.Paint.Features.Elements.Images.Picture>(class [mscorlib]System.Collections.Generic.IEnumerable`1<!!0>)
+				IL_0082: brfalse.s IL_009f
+
+				IL_0084: ldloc.1
+				IL_0085: ldloc.3
+				IL_0086: call !!0 [System.Core]System.Linq.Enumerable::First<class [Cvte.Paint.Shell]Cvte.Paint.Features.Elements.Images.Picture>(class [mscorlib]System.Collections.Generic.IEnumerable`1<!!0>)
+				IL_008b: callvirt instance class [System]System.Uri [Cvte.Paint.Shell]Cvte.Paint.Features.Elements.MultimediaElement::get_Source()
+				IL_0090: callvirt instance string [System]System.Uri::get_AbsolutePath()
+				IL_0095: newobj instance void [System.Drawing]System.Drawing.Bitmap::.ctor(string)
+				IL_009a: stfld class [System.Drawing]System.Drawing.Bitmap EasiCamera.UI.ScanCompositionControl::_bitmap
+
+				IL_009f: ldloc.1
+				IL_00a0: ldc.i4.1
+				IL_00a1: call instance void EasiCamera.UI.ScanCompositionControl::StartRequest(bool)
+				IL_00a6: leave IL_014b
+
+				IL_00ab: ldloc.1
+				IL_00ac: ldfld class [EasiCamera.Business]EasiCamera.Business.PaperDetectWorker EasiCamera.UI.ScanCompositionControl::_paperDetectWorker
+				IL_00b1: callvirt instance class [mscorlib]System.Threading.Tasks.Task`1<bool> [EasiCamera.Business]EasiCamera.Business.PaperDetectWorker::Start()
+				IL_00b6: callvirt instance valuetype [mscorlib]System.Runtime.CompilerServices.TaskAwaiter`1<!0> class [mscorlib]System.Threading.Tasks.Task`1<bool>::GetAwaiter()
+				IL_00bb: stloc.s 4
+				IL_00bd: ldloca.s 4
+				IL_00bf: call instance bool valuetype [mscorlib]System.Runtime.CompilerServices.TaskAwaiter`1<bool>::get_IsCompleted()
+				IL_00c4: brtrue.s IL_0104
+
+				IL_00c6: ldarg.0
+				IL_00c7: ldc.i4.0
+				IL_00c8: dup
+				IL_00c9: stloc.0
+				IL_00ca: stfld int32 EasiCamera.UI.ScanCompositionControl/'<BeginScan>d__27'::'<>1__state'
+				IL_00cf: ldarg.0
+				IL_00d0: ldloc.s 4
+				IL_00d2: stfld valuetype [mscorlib]System.Runtime.CompilerServices.TaskAwaiter`1<bool> EasiCamera.UI.ScanCompositionControl/'<BeginScan>d__27'::'<>u__1'
+				IL_00d7: ldarg.0
+				IL_00d8: ldflda valuetype [mscorlib]System.Runtime.CompilerServices.AsyncVoidMethodBuilder EasiCamera.UI.ScanCompositionControl/'<BeginScan>d__27'::'<>t__builder'
+				IL_00dd: ldloca.s 4
+				IL_00df: ldarg.0
+				IL_00e0: call instance void [mscorlib]System.Runtime.CompilerServices.AsyncVoidMethodBuilder::AwaitUnsafeOnCompleted<valuetype [mscorlib]System.Runtime.CompilerServices.TaskAwaiter`1<bool>, valuetype EasiCamera.UI.ScanCompositionControl/'<BeginScan>d__27'>(!!0&, !!1&)
+				IL_00e5: leave.s IL_015e
+
+				IL_00e7: ldarg.0
+				IL_00e8: ldfld valuetype [mscorlib]System.Runtime.CompilerServices.TaskAwaiter`1<bool> EasiCamera.UI.ScanCompositionControl/'<BeginScan>d__27'::'<>u__1'
+				IL_00ed: stloc.s 4
+				IL_00ef: ldarg.0
+				IL_00f0: ldflda valuetype [mscorlib]System.Runtime.CompilerServices.TaskAwaiter`1<bool> EasiCamera.UI.ScanCompositionControl/'<BeginScan>d__27'::'<>u__1'
+				IL_00f5: initobj valuetype [mscorlib]System.Runtime.CompilerServices.TaskAwaiter`1<bool>
+				IL_00fb: ldarg.0
+				IL_00fc: ldc.i4.m1
+				IL_00fd: dup
+				IL_00fe: stloc.0
+				IL_00ff: stfld int32 EasiCamera.UI.ScanCompositionControl/'<BeginScan>d__27'::'<>1__state'
+
+				IL_0104: ldloca.s 4
+				IL_0106: call instance !0 valuetype [mscorlib]System.Runtime.CompilerServices.TaskAwaiter`1<bool>::GetResult()
+				IL_010b: stloc.2
+				IL_010c: ldloc.2
+				IL_010d: brfalse.s IL_0118
+
+				IL_010f: ldloc.1
+				IL_0110: ldc.i4.0
+				IL_0111: call instance void EasiCamera.UI.ScanCompositionControl::StartRequest(bool)
+				IL_0116: br.s IL_0130
+
+				IL_0118: ldloc.1
+				IL_0119: call instance bool [PresentationFramework]System.Windows.FrameworkElement::get_IsLoaded()
+				IL_011e: brfalse.s IL_0130
+
+				IL_0120: ldloc.1
+				IL_0121: ldstr "Lang.ScanComposition.RecognizeError"
+				IL_0126: call string [Cvte.Windows.cc]Cvte.Windows.Localization.Lang::Get(string)
+				IL_012b: call instance void EasiCamera.UI.ScanCompositionControl::EnterErrorState(string)
+
+				IL_0130: leave.s IL_014b
+			} // end .try
+			catch [mscorlib]System.Exception
+			{
+				IL_0132: stloc.s 5
+				IL_0134: ldarg.0
+				IL_0135: ldc.i4.s -2
+				IL_0137: stfld int32 EasiCamera.UI.ScanCompositionControl/'<BeginScan>d__27'::'<>1__state'
+				IL_013c: ldarg.0
+				IL_013d: ldflda valuetype [mscorlib]System.Runtime.CompilerServices.AsyncVoidMethodBuilder EasiCamera.UI.ScanCompositionControl/'<BeginScan>d__27'::'<>t__builder'
+				IL_0142: ldloc.s 5
+				IL_0144: call instance void [mscorlib]System.Runtime.CompilerServices.AsyncVoidMethodBuilder::SetException(class [mscorlib]System.Exception)
+				IL_0149: leave.s IL_015e
+			} // end handler
+
+			IL_014b: ldarg.0
+			IL_014c: ldc.i4.s -2
+			IL_014e: stfld int32 EasiCamera.UI.ScanCompositionControl/'<BeginScan>d__27'::'<>1__state'
+			IL_0153: ldarg.0
+			IL_0154: ldflda valuetype [mscorlib]System.Runtime.CompilerServices.AsyncVoidMethodBuilder EasiCamera.UI.ScanCompositionControl/'<BeginScan>d__27'::'<>t__builder'
+			IL_0159: call instance void [mscorlib]System.Runtime.CompilerServices.AsyncVoidMethodBuilder::SetResult()
+
+			IL_015e: ret
+		} // end of method '<BeginScan>d__27'::MoveNext

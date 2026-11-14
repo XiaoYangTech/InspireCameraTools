@@ -1,0 +1,22 @@
+ILSpy 反编译补丁后 EasiCamera.UI.dll（remove_english，偏移 0xF674）：FunctionModule = FunctionModule.None。
+
+using System.Windows.Controls;
+using Cvte.Windows.Input;
+
+namespace EasiCamera.UI;
+
+public class CompositionCorrectionDisplayToolBarItem : DisplayToolBarItem
+{
+	public CompositionCorrectionDisplayToolBarItem()
+	{
+		base.SortHint = 102.0;
+		base.FunctionModule = FunctionModule.None;
+		base.Command = new DelegateCommand(delegate
+		{
+			Grid theMainGrid = EC.UiService.TheMainGrid;
+			ScanCompositionControl element = new ScanCompositionControl();
+			theMainGrid.Children.Add(element);
+			EC.UiService.SideBarManager.HideSideBar();
+		});
+	}
+}

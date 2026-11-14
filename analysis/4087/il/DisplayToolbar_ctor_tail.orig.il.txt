@@ -1,0 +1,18 @@
+// ============================================================================
+// EasiCamera 2.0.10.4087 IL 证据：DisplayToolbar::.ctor
+// 来源: work/re4087/il\EasiCamera.UI.il.txt（ILSpy 9.1.0.7988 `-il` 输出，GBK 已转 UTF-8）
+// 说明: 仅为方法级摘录，完整 IL 见工作副本 work/re4087/il\EasiCamera.UI.il.txt（较大，未入库）
+// ============================================================================
+
+		IL_01b0: callvirt instance void [PresentationFramework]System.Windows.FrameworkElement::add_SizeChanged(class [PresentationFramework]System.Windows.SizeChangedEventHandler)
+		IL_01b5: call class [EasiCamera.Api]EasiCamera.IEasiCameraBoardService [EasiCamera.Api]EasiCamera.EC::get_BoardApi()
+		IL_01ba: ldarg.0
+		IL_01bb: ldftn instance void EasiCamera.UI.DisplayToolbar::BoardApi_SidebarStatusChanged(object, class [EasiCamera.Api]EasiCamera.EventArgs.ValueChangeEventArgs`1<valuetype [EasiCamera.Api]EasiCamera.SidebarStatus>)
+		IL_01c1: newobj instance void class [mscorlib]System.EventHandler`1<class [EasiCamera.Api]EasiCamera.EventArgs.ValueChangeEventArgs`1<valuetype [EasiCamera.Api]EasiCamera.SidebarStatus>>::.ctor(object, native int)
+		IL_01c6: callvirt instance void [EasiCamera.Api]EasiCamera.IEasiCameraBoardService::add_SidebarStatusChanged(class [mscorlib]System.EventHandler`1<class [EasiCamera.Api]EasiCamera.EventArgs.ValueChangeEventArgs`1<valuetype [EasiCamera.Api]EasiCamera.SidebarStatus>>)
+		IL_01cb: ldarg.0
+		IL_01cc: ldfld class [Cvte.GurnetUI]Cvte.GurnetUI.Controls.Button EasiCamera.UI.DisplayToolbar::ProfileButton
+		IL_01d1: call class [EasiCamera.Api]EasiCamera.IAccountInfo [EasiCamera.Api]EasiCamera.EC::get_Account()
+		IL_01d6: callvirt instance void [PresentationFramework]System.Windows.FrameworkElement::set_DataContext(object)
+		IL_01db: ret
+	} // end of method DisplayToolbar::.ctor

@@ -1,0 +1,39 @@
+ILSpy 反编译补丁后 EasiCamera.UI.dll（force_scan，偏移 0xF55E 起 84 字节 NOP）：Visibility 绑定消失，只剩 IsCanClickDisabled 绑定。
+
+using System.Windows;
+using System.Windows.Data;
+using Cvte.Windows.Localization;
+
+namespace EasiCamera.UI;
+
+public class ImageEnhanceDisplayToolBarItem : DisplayToolBarItem
+{
+	public ImageEnhanceDisplayToolBarItem()
+	{
+		base.SortHint = 101.0;
+		base.FunctionModule = FunctionModule.MainWindow;
+		Binding binding = new Binding
+		{
+			Path = new PropertyPath("CurrentSlide", null),
+			Source = EC.BoardApi.Board,
+			Converter = new SlideToButtonDisabledConverter()
+		};
+		BindingOperations.SetBinding(this, UiItem.IsCanClickDisabledProperty, binding);
+	}
+
+	protected override void OnNormalClick(object sender, RoutedEventArgs e)
+	{
+		base.OnNormalClick(sender, e);
+		EC.EventReporter.ReportEvent("ie_enter");
+		EnhanceModesDialog enhanceModesDialog = new EnhanceModesDialog();
+		enhanceModesDialog.Owner = Application.Current.MainWindow;
+		enhanceModesDialog.ShowDialog();
+	}
+
+	protected override void OnDisabledClick(object sender, RoutedEventArgs e)
+	{
+		base.OnDisabledClick(sender, e);
+		EC.BoardApi.RaiseTryToSetSelectedItemVisible();
+		EC.Notification.ShowInfoSmartly(Lang.Get("Lang.Info.EnhanceImageReturnToCamera"));
+	}
+}
