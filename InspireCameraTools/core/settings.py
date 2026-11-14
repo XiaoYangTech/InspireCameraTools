@@ -14,7 +14,7 @@ from typing import Any
 
 APP_NAME = "InspireCameraTools"
 APP_NAME_CN = "亿方展台管家"
-APP_VERSION = "1.1.0"
+APP_VERSION = "1.1.1"
 ORG_NAME = "InspireCameraTools"
 
 #: 默认配置。新增配置项只需在这里加默认值，旧配置文件自动兼容。
@@ -41,8 +41,6 @@ DEFAULTS: dict[str, Any] = {
     "hid_heartbeat_reply": True,
     # 亿方智云：匿名设备标识（安装后生成一次并持久化；仅用于匿名统计）
     "cloud_device_key": "",
-    # 是否参与匿名统计（仅上报随机设备标识/系统描述/设备名，不含个人信息）
-    "cloud_report_enabled": True,
     # 已展示过的启动弹窗（{弹窗id: 日期}，用于「今日不再显示」）
     "cloud_popup_seen": {},
     # 用户选择跳过的更新版本（避免每次启动重复提示同一版本）

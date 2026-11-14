@@ -225,7 +225,6 @@ class SettingsPage(BasePage):
         items = [
             ("current", "当前版本"),
             ("latest", "云端最新版本"),
-            ("report", "匿名统计"),
             ("device", "匿名设备标识"),
         ]
         for index, (key, label_text) in enumerate(items):
@@ -247,26 +246,16 @@ class SettingsPage(BasePage):
             cursor="hand2",
         )
         self._check_update_button.pack(side="left")
-        self._report_var = tk.BooleanVar(value=bool(settings.get("cloud_report_enabled", True)))
-        tb.Checkbutton(
-            controls,
-            text="参与匿名统计（仅设备随机标识 + 系统信息）",
-            variable=self._report_var,
-            bootstyle="round-toggle",
-            command=self._on_report_toggled,
-            cursor="hand2",
-        ).pack(side="left", padx=(theme.px(16), 0))
-        self._cloud_hint = tk.Label(
+        tk.Label(
             card.body,
-            text=f"接口：{cloud.BASE_URL}（slug={cloud.APP_SLUG}）· 免登录、无个人信息；失败自动忽略，不影响使用。",
+            text="匿名统计与公告弹窗均由亿方智云提供：仅上报随机设备标识与系统信息，不含账号与个人信息；网络异常时自动忽略，不影响使用。",
             bg=theme.WHITE,
             fg=theme.MUTED,
             font=theme.font(9),
             anchor="w",
             justify="left",
             wraplength=theme.px(930),
-        )
-        self._cloud_hint.pack(fill="x", pady=(theme.px(6), 0))
+        ).pack(fill="x", pady=(theme.px(8), 0))
         self._refresh_cloud_card()
 
     def _refresh_cloud_card(self) -> None:
@@ -276,7 +265,6 @@ class SettingsPage(BasePage):
             masked = key[:6] + "…" + key[-4:] if len(key) > 12 else (key or "—")
             values = {
                 "current": settings.APP_VERSION,
-                "report": "已开启" if status.get("report_enabled") else "已关闭",
                 "device": masked,
             }
             for name, text in values.items():
@@ -285,15 +273,6 @@ class SettingsPage(BasePage):
                 self._cloud_values["latest"].configure(text="点「检查更新」获取")
         except Exception:  # noqa: BLE001
             pass
-
-    def _on_report_toggled(self) -> None:
-        enabled = bool(self._report_var.get())
-        try:
-            settings.set("cloud_report_enabled", enabled)
-        except Exception:  # noqa: BLE001
-            pass
-        self._refresh_cloud_card()
-        self.set_status("已开启匿名统计" if enabled else "已关闭匿名统计", "info", 2500)
 
     def _check_update_clicked(self) -> None:
         """手动检查更新：只提示并打开下载页，不做自动下载/安装。"""

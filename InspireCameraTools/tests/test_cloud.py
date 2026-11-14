@@ -28,8 +28,19 @@ class DeviceKeyTests(unittest.TestCase):
     def test_generated_key_matches_pattern(self) -> None:
         key = cloud._generate_device_key()
         self.assertTrue(cloud.DEVICE_KEY_RE.match(key), key)
-        self.assertTrue(key.startswith("le_"))
+        self.assertTrue(key.startswith("ict_"), key)
+        self.assertTrue(cloud.is_valid_device_key(key))
         self.assertNotEqual(key, cloud._generate_device_key())
+
+    def test_legacy_le_key_is_migrated(self) -> None:
+        legacy = "le_" + "a" * 32
+        with mock.patch.object(cloud.settings, "get", return_value=legacy), mock.patch.object(
+            cloud.settings, "set"
+        ) as setter:
+            key = cloud.ensure_device_key()
+        self.assertTrue(key.startswith("ict_"))
+        self.assertNotEqual(key, legacy)
+        setter.assert_called_once_with("cloud_device_key", key)
 
     def test_ensure_device_key_persists(self) -> None:
         with mock.patch.object(cloud.settings, "get", return_value=""), mock.patch.object(
@@ -40,7 +51,7 @@ class DeviceKeyTests(unittest.TestCase):
         setter.assert_called_once_with("cloud_device_key", key)
 
     def test_ensure_device_key_reuses_existing(self) -> None:
-        existing = "le_" + "a" * 32
+        existing = "ict_" + "a" * 32
         with mock.patch.object(cloud.settings, "get", return_value=existing), mock.patch.object(
             cloud.settings, "set"
         ) as setter:
@@ -93,16 +104,9 @@ class UpdateTests(unittest.TestCase):
 
 
 class RequestTests(unittest.TestCase):
-    def test_ping_skipped_when_disabled(self) -> None:
-        with mock.patch.object(cloud.settings, "get", return_value=False), mock.patch.object(
-            cloud, "_json_request"
-        ) as request:
-            self.assertFalse(cloud.ping())
-        request.assert_not_called()
-
     def test_ping_posts_required_fields(self) -> None:
         with mock.patch.object(cloud.settings, "get", return_value=True), mock.patch.object(
-            cloud, "ensure_device_key", return_value="le_1234567890abcdef"
+            cloud, "ensure_device_key", return_value="ict_1234567890abcdef"
         ), mock.patch.object(cloud, "_json_request", return_value={"online": True}) as request, mock.patch.object(
             cloud.settings, "set"
         ):
@@ -110,7 +114,7 @@ class RequestTests(unittest.TestCase):
         route = request.call_args[0][0]
         body = request.call_args[1]["body"]
         self.assertEqual(route, "client_ping")
-        self.assertEqual(body["device_key"], "le_1234567890abcdef")
+        self.assertEqual(body["device_key"], "ict_1234567890abcdef")
         self.assertTrue(body["os"])
         self.assertTrue(body["device_name"])
 

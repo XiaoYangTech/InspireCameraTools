@@ -6,6 +6,7 @@ import logging
 import queue
 import threading
 import tkinter as tk
+from tkinter import ttk
 from datetime import datetime
 from typing import Callable
 
@@ -307,9 +308,13 @@ class ScrollFrame(tk.Frame):
         self.inner = tk.Frame(self.canvas, bg=bg)
         self._window = self.canvas.create_window((0, 0), window=self.inner, anchor="nw")
         self._scroll_needed = True
+        self._wheel_bind_pending = False
         self.inner.bind("<Configure>", self._on_inner_configure)
         self.canvas.bind("<Configure>", self._on_canvas_configure)
         self._bind_wheel()
+        # 直接给画布与容器绑定滚轮，避免依赖 <Enter> 全局绑定（旧实现要先把滚动条拖一次才生效）
+        self.canvas.bind("<MouseWheel>", self._on_mousewheel)
+        self.bind("<MouseWheel>", self._on_mousewheel)
 
     def _on_inner_configure(self, _event=None) -> None:
         try:
@@ -320,6 +325,7 @@ class ScrollFrame(tk.Frame):
             self._schedule_fill()
         else:
             self._update_scrollbar()
+        self._schedule_bind_wheel()
 
     def _on_canvas_configure(self, event) -> None:
         try:
@@ -370,18 +376,56 @@ class ScrollFrame(tk.Frame):
         self._update_scrollbar()
 
     def _bind_wheel(self) -> None:
-        def _on_wheel(event):
+        """给内容区所有子控件递归绑定滚轮（内容变化时重绑）。
+
+        旧实现用 ``<Enter>`` 时 ``bind_all``，实际指针常落在子控件上导致 Enter 不触发，
+        表现为「必须先用滚动条拖一次，滚轮才生效」。改为直接绑定到每个子控件：
+        指针在内容任意位置都能立即滚动，也不会抢其它可滚动控件（Text/Listbox/Treeview）的滚轮。
+        """
+        self._bind_wheel_tree(self.inner)
+
+    def _bind_wheel_tree(self, widget: tk.Misc) -> None:
+        if isinstance(widget, (tk.Text, tk.Listbox, ttk.Treeview, ttk.Combobox)):
+            return  # 自身可滚动的控件保留原生滚轮行为
+        try:
+            widget.bind("<MouseWheel>", self._on_mousewheel)
+        except tk.TclError:
+            pass
+        try:
+            children = widget.winfo_children()
+        except tk.TclError:
+            return
+        for child in children:
+            self._bind_wheel_tree(child)
+
+    def _on_mousewheel(self, event) -> str | None:
+        try:
+            first, last = self.canvas.yview()
+            if (first, last) == (0.0, 1.0):
+                return None
+            delta = -1 if getattr(event, "delta", 0) > 0 else 1
+            self.canvas.yview_scroll(delta * 2, "units")
+            return "break"
+        except tk.TclError:
+            return None
+
+    def _schedule_bind_wheel(self) -> None:
+        """内容变化后（子控件新增）重新绑定滚轮。"""
+        if self._wheel_bind_pending:
+            return
+        self._wheel_bind_pending = True
+
+        def _do() -> None:
+            self._wheel_bind_pending = False
             try:
-                if self.canvas.yview() == (0.0, 1.0):
-                    return
-                delta = -1 if event.delta > 0 else 1
-                self.canvas.yview_scroll(delta * 2, "units")
+                self._bind_wheel()
             except tk.TclError:
                 pass
 
-        # 进入区域时绑定，避免抢占其它控件滚轮事件
-        self.bind("<Enter>", lambda _e: self.canvas.bind_all("<MouseWheel>", _on_wheel))
-        self.bind("<Leave>", lambda _e: self.canvas.unbind_all("<MouseWheel>"))
+        try:
+            self.after_idle(_do)
+        except tk.TclError:
+            self._wheel_bind_pending = False
 
 
 # ---------------------------------------------------------------------------

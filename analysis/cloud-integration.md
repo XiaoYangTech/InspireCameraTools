@@ -11,16 +11,15 @@
 |---|---|
 | `InspireCameraTools/core/cloud.py` | 云客户端：请求封装、设备标识、匿名上报循环、弹窗去重、版本比较、状态查询 |
 | `InspireCameraTools/app/app_window.py` | 启动后 1.2s 后台拉取 `popup`/`app_info`；弹窗公告与更新提示对话框；匿名上报循环随窗口关闭停止 |
-| `InspireCameraTools/app/settings_page.py` | 「亿方智云（更新与公告）」卡片：当前版本/最新版本/匿名统计开关/设备标识/手动「检查更新」 |
-| `InspireCameraTools/core/settings.py` | 新增配置：`cloud_device_key`、`cloud_report_enabled`、`cloud_popup_seen`、`cloud_skip_version`、`cloud_last_ping` |
+| `InspireCameraTools/app/settings_page.py` | 「亿方智云（更新与公告）」卡片：当前版本/最新版本/设备标识/手动「检查更新」（不展示 API 地址、无匿名统计开关） |
+| `InspireCameraTools/core/settings.py` | 新增配置：`cloud_device_key`、`cloud_popup_seen`、`cloud_skip_version`、`cloud_last_ping` |
 | `InspireCameraTools/tests/test_cloud.py` | 13 个离线单测（版本比较、设备标识、弹窗去重、上报字段、失败降级） |
 
 ## 二、接口行为
 
 ### 1. 匿名上报 `client_ping`
 - 启动后延迟 3s 首次上报，之后每 **8 分钟**一次（文档建议值，小于后台在线判定 10 分钟）；失败静默重试，不阻塞界面。
-- 请求体仅：`device_key`（`le_` + 32 位十六进制，首次生成后持久化，符合 `^[A-Za-z0-9_-]{16,100}$`）、`os`（系统描述 ≤80 字符）、`device_name`（计算机名 ≤80 字符）。
-- 「设置与关于」页可关闭匿名统计（`cloud_report_enabled=false`），关闭后不再发送 `client_ping`；公告与更新检查不受影响。
+- 请求体仅：`device_key`（`ict_` + 32 位十六进制，首次生成后持久化，符合 `^[A-Za-z0-9_-]{16,100}$`）、`os`（系统描述 ≤80 字符）、`device_name`（计算机名 ≤80 字符）。
 - 实测：`client_ping` 返回 `{"ok":true,"data":{"online":true,...}}`。
 
 ### 2. 启动弹窗公告 `popup`
@@ -71,3 +70,10 @@ python main.py --self-check
 REM 真实接口冒烟（本机已执行，2026-11-14）
 python -c "from core import cloud; print(cloud.get_popup(), cloud.get_app_info(), cloud.check_update('1.0.1'), cloud.ping())"
 ```
+
+
+## 六、v1.1.1 调整
+
+- 设置页云服务卡片：**删除 API 地址文本显示**、**删除匿名上报开关**（匿名上报固定启用，仅设备随机标识/系统信息）；
+- 匿名设备标识改为 **`ict_` 前缀**（旧 `le_` 标识自动迁移重新生成）；
+- 修复所有滚动页面「必须先手动拖一次滚动条，鼠标滚轮才生效」的问题：`app/common.py::ScrollFrame` 改为递归给内容区控件绑定滚轮（原 `<Enter>` 全局绑定在指针位于子控件上时不触发）。

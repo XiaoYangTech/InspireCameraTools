@@ -185,7 +185,7 @@ python -m core.cli restore --main <Main目录> --backup <备份目录>
 ## 亿方智云（InspireWorksCloud）接入
 
 - 应用标识：`slug = ict`；Base URL：`https://api.yfyw.top/apps/ict/api.php`
-- 已接入：匿名上报 `client_ping`（启动 + 每 8 分钟，可在设置页关闭）、启动弹窗公告 `popup`（今日不再显示）、传统手动更新 `app_info`（提示打开下载页，不自动安装）。
+- 已接入：匿名上报 `client_ping`（启动 + 每 8 分钟，匿名设备标识以 `ict_` 开头）、启动弹窗公告 `popup`（今日不再显示）、传统手动更新 `app_info`（提示打开下载页，不自动安装）。
 - 隐私：上报仅随机设备标识、系统描述、计算机名，不含账号与个人信息。
 - 未接入：`app_update` 自动更新、例程、轮播等。
 

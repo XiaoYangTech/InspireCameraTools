@@ -10,8 +10,7 @@
 Base URL：``https://api.yfyw.top/apps/ict/api.php``（本应用 slug = ``ict``）。
 接口免登录、免令牌、无配额；响应 JSON 用 ``ok`` 字段判断成功。
 
-隐私：上报内容仅设备随机标识、系统描述、计算机名，不含账号和个人信息；
-可在「设置与关于」页关闭匿名统计（关闭后仅不再发 ``client_ping``）。
+隐私：上报内容仅设备随机标识、系统描述、计算机名，不含账号和个人信息。
 """
 
 from __future__ import annotations
@@ -49,6 +48,13 @@ PING_INTERVAL_SECONDS = 8 * 60
 PING_INITIAL_DELAY_SECONDS = 3.0
 #: 设备标识格式（文档要求 ^[A-Za-z0-9_-]{16,100}$）
 DEVICE_KEY_RE = re.compile(r"^[A-Za-z0-9_-]{16,100}$")
+#: 设备标识前缀（本应用：ict）
+DEVICE_KEY_PREFIX = "ict_"
+
+
+def is_valid_device_key(key: str) -> bool:
+    """设备标识必须符合格式且以 ``ict_`` 开头（旧版 le_ 前缀会被迁移）。"""
+    return bool(DEVICE_KEY_RE.match(key or "")) and str(key).startswith(DEVICE_KEY_PREFIX)
 
 _HEADERS = {
     "Accept": "application/json",
@@ -94,14 +100,14 @@ def _json_request(route: str, params: dict | None = None, body: dict | None = No
 # 匿名上报
 # ---------------------------------------------------------------------------
 def _generate_device_key() -> str:
-    """生成随机设备标识：``le_`` + 32 位十六进制（35 字符，符合文档格式）。"""
-    return "le_" + secrets.token_hex(16)
+    """生成随机设备标识：``ict_`` + 32 位十六进制（36 字符，符合文档格式）。"""
+    return DEVICE_KEY_PREFIX + secrets.token_hex(16)
 
 
 def ensure_device_key() -> str:
     """读取/生成并持久化匿名设备标识（安装后仅生成一次）。"""
     key = str(settings.get("cloud_device_key") or "").strip()
-    if DEVICE_KEY_RE.match(key):
+    if is_valid_device_key(key):
         return key
     key = _generate_device_key()
     try:
@@ -130,9 +136,7 @@ def device_name() -> str:
 
 
 def ping() -> bool:
-    """匿名上报一次（仅在设置允许时）；成功返回 True。"""
-    if not bool(settings.get("cloud_report_enabled", True)):
-        return False
+    """匿名上报一次；成功返回 True（失败静默）。"""
     key = ensure_device_key()
     data = _json_request(
         "client_ping",
@@ -290,7 +294,6 @@ def cloud_status() -> dict:
         "slug": APP_SLUG,
         "base_url": BASE_URL,
         "device_key": ensure_device_key(),
-        "report_enabled": bool(settings.get("cloud_report_enabled", True)),
         "last_ping": int(settings.get("cloud_last_ping") or 0),
         "current_version": settings.APP_VERSION,
     }

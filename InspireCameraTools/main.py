@@ -23,7 +23,7 @@ import traceback
 
 APP_NAME = "InspireCameraTools"
 APP_TITLE = "亿方展台管家"
-APP_VERSION = "1.1.0"
+APP_VERSION = "1.1.1"
 
 
 # ---------------------------------------------------------------------------

@@ -139,3 +139,12 @@ dist\InspireCameraTools\InspireCameraTools.exe
   `client_ping` 返回 `online:true`。
 - 测试：新增 `tests/test_cloud.py` 13 个离线用例；全套 81 个单测通过；应用自检/打包 smoke 通过。
 - 版本升至 **1.1.0**。
+
+
+## 十、v1.1.1 用户反馈修复（2026-11-14）
+
+1. 设置页「亿方智云」卡片删除 API 地址文本、删除匿名上报开关（匿名上报固定启用）；
+2. 匿名设备标识前缀改为 `ict_`（旧 `le_` 标识自动迁移重新生成，符合文档 `^[A-Za-z0-9_-]{16,100}$`）；
+3. 修复界面滚轮：`app/common.py::ScrollFrame` 由 `<Enter>` + `bind_all` 改为递归给内容区全部子控件绑定 `<MouseWheel>`（内容变化自动重绑），
+   解决「不先拖滚动条滚轮就无效」的问题；在进程内验证 125 个控件已绑定、滚轮事件可立即滚动，且跳过 Text/Listbox/Treeview 保留其原生滚动；
+4. 版本升至 **1.1.1**，重新打包并重新发布 GitHub / CNB Release（附 zip + SHA256SUMS）。
